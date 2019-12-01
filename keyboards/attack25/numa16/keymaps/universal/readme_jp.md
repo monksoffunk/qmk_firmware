@@ -4,51 +4,71 @@
 ### Default Layer
 
 ```
- ,-----------------------.             
- |NumLk|  /  |  *  |  -  |             
+ ,-----------------------.                         
+ |  7  |  8  |  9  |  -  |  - momentary on...RGB Layer
+ |-----+-----+-----+-----|　
+ |  4  |  5  |  6  |  +  |  + momentary on...FN Layer
  |-----+-----+-----+-----|
- |  7  |  8  |  9  |     |
- |-----+-----+-----|  +  |
- |  4  |  5  |  6  |     |  Tab momentary on...RGB Layer
- |-----+-----+-----+-----|
- |  1  |  2  |  3  |     |  Del momentary on...FN Layer
- |-----+-----+-----| Ent |
- |  0  | 00  |  .  |     |
+ |  1  |  2  |  3  |  E  |  
+ |-----+-----+-----|  N  |  Enter momentary on...BLED Layer
+ |  0  | 00  |  .  |  T  |  
  `------------------------
 ```
 
 ### FN Layer
 
 ```
- ,-----------------------------.             
- | F10 | F11 | F12 |     |     |             
- |-----+-----+-----+-----+-----|
- |  F7 |  F8 |  F9 |     |     |
- |-----+-----+-----+-----+-----|
- |  F4 |  F5 |  F6 |     |     |
- |-----+-----+-----+-----+-----|
- |  F1 |  F2 |  F3 |     |     |
- |-----+-----+-----+-----+-----|
- |     |     |     |     |     |
- `------------------------------
+ ,-----------------------.             
+ |  F7 |  F8 |  F9 | F10 |
+ |-----+-----+-----+-----|
+ |  F4 |  F5 |  F6 |     |
+ |-----+-----+-----+-----|
+ |  F1 |  F2 |  F3 |     |
+ |-----+-----+-----|     |
+ |     |     |     |     |
+ `------------------------
 ```
  
-### RGB Layer
+### FN2 Layer
 
 ```
- ,-----------------------------.             
- | TOG | MODF| HINC| SINC| VINC|             
- |-----+-----+-----+-----+-----|
- | RST | MODR| HDEC| SDEC| VDEC|
- |-----+-----+-----+-----+-----|
- |PLAIN|BREAT| SPI |     |     |
- |-----+-----+-----+-----+-----|
- |SWIRL|SNAKE| SPD |     |     |
- |-----+-----+-----+-----+-----|
- |     |     |     |     |     |
- `------------------------------
+ ,-----------------------.             
+ | Num |  /  |  *  | STAB|
+ |-----+-----+-----+-----|
+ | Esc |     |WinMc| TAB |
+ |-----+-----+-----+-----|
+ |     |     |     |     |
+ |-----+-----+-----|  BS |
+ |     |     |     |     |
+ `------------------------
+```
+ ### RGB Layer
+
+```
+ ,-----------------------.             
+ | TOG | MODF| HINC|     |             
+ |-----+-----+-----+-----|
+ | RST | MODR| HDEC|     |
+ |-----+-----+-----+-----|
+ | SAI |     | VAI |     |
+ |-----+-----+-----|     |
+ | SAD |     | VAD |     |
+ `------------------------
 ```
 
+ ### BL Layer
+
+```
+ ,-----------------------.             
+ | TOG | BLON| INC |STEP |             
+ |-----+-----+-----+-----|
+ | MODE|BLOFF| DEC |     |
+ |-----+-----+-----+-----|
+ |     |     |     |     |
+ |-----+-----+-----|     |
+ |     |     |     |     |
+ `------------------------
+```
 
 ## コンパイルの仕方
 
@@ -60,19 +80,19 @@ $ cd qmk_firmware
 qmk_firmwareでは各キーボードのコンパイルは、`<キーボード名>:<キーマップ名>`という指定で行います。
 
 ```
-$ make attack25:default
+$ make attack25/numa16:universal
 ```
 
 キーボードへの書き込みまで同時に行うには下記のように`:avrdude`を付けます。
 
 ```
-$ make attack25:default:avrdude
+$ make attack25/numa16:universal:avrdude
 ```
 
 コンパイル結果と中間生成物を消去したい場合は以下のようにします。
 
 ```
-$ make attack25:default:clean
+$ make attack25/numa16:universal:clean
 ```
 
 ## カスタマイズ
@@ -80,36 +100,32 @@ $ make attack25:default:clean
 コマンドラインからオプションを指定してビルドすることが出来ます。
 
 ```
-### Attack25 keyboard 'default' keymap: convenient command line option
-##    make ATTACK25=<options> attack25:defualt
-##    option= back | under | both | 1led | na | ios
+### NumATTACK16 keyboard 'universal' keymap: convenient command line option
+##    make ATTACK25=<options> attack25/numa16:universal
+##    option= smd | back | under | na | ios
 ##    ex.
-##      make ATTACK25=under    attack25:defualt
-##      make ATTACK25=under,ios attack25:defualt
-##      make ATTACK25=back     attack25:default
-##      make ATTACK25=back,na  attack25:default
-##      make ATTACK25=back,ios attack25:default
-##      make ATTACK25=1led     attack25:default
+##      make ATTACK25=under    attack25/numa16:defualt
+##      make ATTACK25=under,ios attack25/numa16:defualt
+##      make ATTACK25=back     attack25/numa16:universal
+##      make ATTACK25=back,na  attack25/numa16:universal
+##      make ATTACK25=back,ios attack25/numa16:universal
+##      make ATTACK25=smd,back,ios attack25/numa16:universal
 
 ```
 
 ## カスタマイズに使用できるオプションについて
 
 ```
-
-back...バックライトLEDを有効にする場合（キーキャップ側を照らす25個のLEDを実装した場合）
+smd...SMD版の場合（MCUが32u2になります）
+back...バックライトLEDを有効にする場合（キーキャップ側を照らすインスイッチLEDを実装した場合）
 under...アンダーグロウLEDを有効にする場合（底面側を照らす5個のLEDを実装した場合）
-both...バックライトLED25個の後にアンダーグロウLED5個を接続した場合
-1led...SW1の部分にのみ実装したLEDを有効にする場合（LEDの実装はバックライト、アンダーグロウのどちらでもかまいませんが、バックライトの方がメンテナンスが容易）
 na...RGBのアニメーションをオフにする場合
 ios...iPad/iPhoneなどのiOS機器に接続する場合（消費電力を制限します）
-
-※keiriおよびkeiri_macは通常RGBバックライトを実装出来ません（アンダーおよび1LEDは実装可能）
 
 ```
 
 ## カスタマイズを使用したビルドコマンド例
 
-make ATTACK25=back attack25:default
-バックライトLEDを有効にするオプションを付与してdefaultキーマップのファームをビルドします
+make ATTACK25=smd,under attack25/numa16:universal
+アンダーグロウLEDを有効にするオプションを付与してuniversalキーマップのファームをビルドします
 
