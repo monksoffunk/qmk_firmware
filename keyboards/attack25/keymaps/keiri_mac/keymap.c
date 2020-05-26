@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H
-#include <drivers/avr/pro_micro.h>
+#include "promicro_LED.h"
 
 #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
     extern RGB_CONFIG_t RGB_CONFIG;
@@ -349,7 +349,7 @@ void rgb_matrix_indicators_user(void) {
     }
 
     void led_set_user(uint8_t usb_led) {
-        if (!RGB_momentary_on) {
+        if (!RGB_momentary_on && !MAC_mode) {
 	        if (usb_led & (1 << USB_LED_NUM_LOCK)) {
                 rgblight_sethsv_noeeprom(RGB_current_config.hue, RGB_current_config.sat, RGB_current_config.val);
 			    rgblight_mode_noeeprom(RGB_current_config.mode);

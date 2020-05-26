@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H
-#include <drivers/avr/pro_micro.h>
+#include "promicro_LED.h"
 #include <macdetect.h>
 
 #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
