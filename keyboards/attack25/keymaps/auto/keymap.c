@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H
-#include "promicro_LED.h"
-#include <macdetect.h>
+#include "../common/promicro_LED.h"
+#include "../common/windetect.h"
 
 #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
     extern RGB_CONFIG_t RGB_CONFIG;
@@ -13,7 +13,7 @@
 extern keymap_config_t keymap_config;
 static bool MAC_mode = true;
 static bool NumLock_Mode = true;
-static bool macos_checked = false;
+static bool os_checked = false;
 
 enum layer_number {
     _NUM = 0,
@@ -82,12 +82,12 @@ void matrix_init_user(void) {
 }
 
 void matrix_scan_user(void) {
-    if (!macos_checked) {
-        switch(macos_check()) {
+    if (!os_checked) {
+        switch(winos_check()) {
             case 0 ... 4:
                 break;
             case 5:
-                macos_checked = true;
+                os_checked = true;
                 MAC_mode = !keymap_config.swap_lalt_lgui;
                 #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
                     rgblight_mode_noeeprom(1);
@@ -116,8 +116,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case WINMAC:
             if (record->event.pressed) {
-                if (!macos_checked) {
-                    macos_checked = true;
+                if (!os_checked) {
+                    os_checked = true;
                     #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
                         rgb_sethsv_noeeprom(HSV_ORANGE);
                         splash_timer = timer_read();

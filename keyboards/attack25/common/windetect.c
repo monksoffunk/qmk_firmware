@@ -1,5 +1,5 @@
 /*
-Mac / Win OS detect
+Win OS detect
 
 Caution : experimental phase!!
 
@@ -9,13 +9,13 @@ Copyright 2019 monksoffunk
 
 
 #include QMK_KEYBOARD_H
-#include <macdetect.h>
+#include "windetect.h"
 #define OSCHECK_TIME 60000
 #define PREOSCHECK_TIME 500
 #define NUMCHECK_TIME 500
 #define KEYWAIT_TIME 500
 
-uint8_t macos_check(void) {
+uint8_t winos_check(void) {
     static bool mac_mode = true;
     static uint8_t modecheck_step = 0;
     static uint16_t oscheck_timer, keywait_timer;

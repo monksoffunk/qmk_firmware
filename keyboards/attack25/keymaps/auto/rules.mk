@@ -121,7 +121,7 @@ ifndef QUANTUM_DIR
 	include ../../../../Makefile
 endif
 
-SRC += ../../rev1/macdetect.c
+SRC += ../../common/windetect.c
 
 # Uncomment these for debugging
 # $(info -- RGBLIGHT_ENABLE=$(RGBLIGHT_ENABLE))
