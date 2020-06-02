@@ -62,4 +62,4 @@ AUDIO_ENABLE = no
 RGBLIGHT_ENABLE = no
 
 
-DEFAULT_FOLDER = attack25/rev1
+DEFAULT_FOLDER = attack25/attack25/rev1
