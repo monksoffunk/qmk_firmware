@@ -171,8 +171,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	  break;
 	case P00:
 	  if (record->event.pressed) {
-	     SEND_STRING("00");
-	  }
+        tap_code(KC_P0);
+        tap_code(KC_P0);
+      }
 	  return false;
 	  break;
 	default:
