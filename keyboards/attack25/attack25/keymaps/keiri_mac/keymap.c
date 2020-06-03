@@ -80,7 +80,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 MAC_mode = !MAC_mode;
                 if (MAC_mode && !NumLock_Mode) {
                     SEND_STRING(SS_TAP(X_NUMLOCK));
-                } else if (!MAC_mode) {
+                    layer_on(_NUMOFF);
+                } else if (!MAC_mode && !NumLock_Mode) {
+                    SEND_STRING(SS_TAP(X_NUMLOCK));
                     layer_off(_NUMOFF);
                 }
             }
