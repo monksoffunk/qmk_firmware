@@ -1,4 +1,4 @@
-﻿# The numATTACK16 Universal Layout
+﻿# The numAttack16 Universal Layout
 ## 配列
 
 ### Default Layer

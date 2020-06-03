@@ -1,4 +1,4 @@
-﻿# The keiri Attack25 Layout
+﻿# The numAttack16 tenkey Layout
 ## Layout
 
 ### Default Layer
