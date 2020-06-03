@@ -68,6 +68,7 @@ endif
 
 ifeq ($(strip $(SMD_32u2)),yes)
 	MCU = atmega32u2
+	OPT_DEFS += DSMD
 endif
 
 ifeq ($(strip $(LED_UNDERGLOW_ENABLE)), yes)

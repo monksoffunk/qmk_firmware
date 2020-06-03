@@ -46,7 +46,6 @@ OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 #   atmega32a    bootloadHID
 BOOTLOADER = caterina
 
-
 # Build Options
 #   comment out to disable the options.
 #

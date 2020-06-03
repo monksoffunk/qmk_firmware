@@ -1,7 +1,7 @@
 #pragma once
 
 #include "quantum.h"
-#include <rgb_matrix_layer.h>
+#include "../common/rgb_matrix_layer.h"
 
 #define LAYOUT_ortho_5x5( \
 	K00, K01, K02, K03, K04, \

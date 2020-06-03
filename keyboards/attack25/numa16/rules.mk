@@ -1,3 +1,1 @@
-# Build Options
-# If you need, add below.
-
+DEFAULT_FOLDER = attack25/numa16/promicro

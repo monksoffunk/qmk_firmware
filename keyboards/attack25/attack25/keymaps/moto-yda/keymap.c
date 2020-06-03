@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H
-#include <drivers/avr/pro_micro.h>
+#include "../common/promicro_LED.h"
 
 #ifdef RGBLIGHT_ENABLE
 //Following line allows macro to read current RGB settings

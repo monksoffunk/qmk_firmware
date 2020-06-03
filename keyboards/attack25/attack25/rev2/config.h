@@ -58,19 +58,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef RGBLIGHT_ENABLE
     #define RGB_DI_PIN D3
-    #ifdef RGBLED_BOTH
-    //  #define RGBLED_NUM 30
-    #else
-        #ifdef RGBLED_BACK
-            #define RGBLED_NUM 25
-        #else
-            #ifdef RGBLED_1LED
-                // #define RGBLED_NUM 1
-            #else
-                #define RGBLED_NUM 5
-            #endif
-        #endif
-    #endif
+    #define RGBLED_NUM 5
+    // current rev2 PCB has 5 underglow RGB LED only and so always RGBLED_NUM=5
+    // #ifdef RGBLED_BOTH
+    //   #define RGBLED_NUM 30
+    // #else
+    //     #ifdef RGBLED_BACK
+    //         #define RGBLED_NUM 25
+    //     #else
+    //         #ifdef RGBLED_1LED
+    //              #define RGBLED_NUM 1
+    //         #else
+    //             #define RGBLED_NUM 5
+    //         #endif
+    //     #endif
+    // #endif
 
     #ifndef IOS_DEVICE_ENABLE
         #if RGBLED_NUM <= 6

@@ -1,15 +1,8 @@
 #pragma once
 
-#include "quantum.h"
-
-#define LAYOUT_ortho_4x4( \
-	K00, K01, K02, K03, \
-	K10, K11, K12, K13, \
-	K20, K21, K22, K23, \
-	K30, K31, K32, K33  \
-) { \
-	{ K00,   K01,   K02,   K03 }, \
-	{ K10,   K11,   K12,   K13 }, \
-	{ K20,   K21,   K22,   K23 }, \
-	{ K30,   K31,   K32,   K33 }  \
-}
+#ifdef KEYBOARD_attack25_numa16_promicro
+  #include "promicro.h"
+#endif
+#ifdef KEYBOARD_attack25_numa16_smd
+    #include "smd.h"
+#endif
