@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "common/promicro_LED.h"
 
 #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
     extern RGB_CONFIG_t RGB_CONFIG;
@@ -70,11 +69,6 @@ void matrix_init_user(void) {
         RGB_current_config = RGB_CONFIG;
     #elif defined(RGB_MATRIX_ENABLE)
         RGB_current_config = RGB_CONFIG;
-    #endif
-    #ifndef SMD
-        TX_RX_LED_INIT; //Turn LEDs off by default
-        RXLED0;
-        TXLED0;
     #endif
 }
 

@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "../common/promicro_LED.h"
 
 #ifdef RGBLIGHT_ENABLE
 //Following line allows macro to read current RGB settings
@@ -64,9 +63,6 @@ void matrix_init_user(void) {
 	    rgblight_init();
       RGB_current_config = rgblight_config;
     #endif
-    TX_RX_LED_INIT; //Turn LEDs off by default
-    RXLED0;
-    TXLED0;
 }
 
 void matrix_scan_user(void) {
