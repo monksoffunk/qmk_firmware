@@ -4,4 +4,4 @@
 MCU = atmega32u2
 BOOTLOADER = atmel-dfu
 
-OPT_DEF += SMD
+OPT_DEF += -SMD
