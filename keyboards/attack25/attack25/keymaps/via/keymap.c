@@ -344,3 +344,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 #endif
 
+#ifdef ENCODER_ENABLE
+void encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) {
+        switch (layer_state) {
+            case _NUM:
+                if (clockwise) {
+                    tap_code(KC_TAB);
+                } else {
+                    register_code(KC_LSFT);
+                    tap_code(KC_TAB);
+                    unregister_code(KC_LSFT);
+                }
+            break;
+            case _NUMOFF:
+                if (clockwise) {
+                //    tap_code(KC_VOLU);
+                    if(keymap_config.swap_lalt_lgui==false){
+                        tap_code(KC_LANG2);
+                    }else {
+                        SEND_STRING(SS_LALT("`"));
+                    }
+                } else {
+                    if(keymap_config.swap_lalt_lgui==false){
+                    tap_code(KC_LANG1);
+                    } else {
+                        SEND_STRING(SS_LALT("`"));
+                    }
+                }
+            break;
+            case _FN:
+                if (clockwise) {
+                    tap_code(KC_VOLU);
+                } else {
+                    tap_code(KC_VOLD);
+            }
+        }
+    }
+}
+#endif
