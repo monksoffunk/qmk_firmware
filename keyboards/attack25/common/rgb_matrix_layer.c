@@ -17,7 +17,7 @@
         switch (mode) {
             case 1:  // breathing
             {
-                uint16_t time = scale16by8(g_rgb_counters.tick, speed / 8);
+                uint16_t time = scale16by8(g_rgb_timer, speed / 8);
                 hsv.v         = scale8(abs8(sin8(time) - 128) * 2, hsv.v);
                 RGB rgb       = hsv_to_rgb(hsv);
                 for (uint8_t i = 0; i < DRIVER_LED_TOTAL; i++) {
