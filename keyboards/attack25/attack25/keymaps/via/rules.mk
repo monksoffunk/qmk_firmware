@@ -1,4 +1,3 @@
-
 # Build Options
 #   change to "no" to disable the options, or define them in the Makefile in
 #   the appropriate keymap folder that will get included automatically
@@ -6,7 +5,7 @@
 BOOTMAGIC_ENABLE = no       # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = no       # Mouse keys(+4700)
 EXTRAKEY_ENABLE = yes       # Audio control and System control(+450)
-CONSOLE_ENABLE = yes         # Console for debug(+400)
+CONSOLE_ENABLE = no         # Console for debug(+400)
 COMMAND_ENABLE = no        # Commands for debug and configuration
 NKRO_ENABLE = no            # Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
 # BACKLIGHT_ENABLE = no      # Enable keyboard backlight functionality
@@ -55,15 +54,18 @@ Link_Time_Optimization = no # if firmware size over limit, try this option
 ifneq ($(strip $(ATTACK25)),)
   	ifeq ($(findstring back,$(ATTACK25)), back)
     	LED_BACK_ENABLE =  yes
+		LED_BOTH_ENABLE = no
   	endif
   	ifeq ($(findstring under,$(ATTACK25)), under)
     	LED_UNDERGLOW_ENABLE = yes
+		LED_BOTH_ENABLE = no
   	endif
-  	ifeq ($(findstring both,$(ATTACK25)), both)
-    	LED_BOTH_ENABLE = yes
-  	endif
-  	ifeq ($(findstring 1led,$(ATTACK25)), 1led)
+	ifeq ($(findstring 1led,$(ATTACK25)), 1led)
     	LED_1LED_ENABLE = yes
+		LED_BOTH_ENABLE = no
+  	endif
+	ifeq ($(findstring both,$(ATTACK25)), both)
+    	LED_BOTH_ENABLE = yes
   	endif
 	ifeq ($(findstring matrix,$(ATTACK25)), matrix)
     	RGB_MATRIX = yes
@@ -123,12 +125,3 @@ endif
 
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
-
-ifndef QUANTUM_DIR
-	include ../../../../Makefile
-endif
-
-# Uncomment these for debugging
-# $(info -- RGBLIGHT_ENABLE=$(RGBLIGHT_ENABLE))
-# $(info -- OPT_DEFS=$(OPT_DEFS))
-# $(info )

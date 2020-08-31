@@ -60,16 +60,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifdef RGBLIGHT_ENABLE
+    #define RGBLIGHT_LAYERS
     #ifdef RGBLED_BOTH
         #define RGBLED_NUM 30
+        #define LAYER_RGBLED_START 25
+        #define LAYER_RGBLED_NUM 5
     #else
         #ifdef RGBLED_BACK
             #define RGBLED_NUM 25
+            #define LAYER_RGBLED_START 0
+            #define LAYER_RGBLED_NUM 25
         #else
             #ifdef RGBLED_1LED
                 #define RGBLED_NUM 1
+                #define LAYER_RGBLED_START 0
+                #define LAYER_RGBLED_NUM 1
             #else
                 #define RGBLED_NUM 5
+                #define LAYER_RGBLED_START 0
+                #define LAYER_RGBLED_NUM 5
             #endif
         #endif
     #endif

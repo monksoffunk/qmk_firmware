@@ -57,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define BACKLIGHT_ON_STATE 1  //The state of the backlight pin when the backlight is "on" - 1 for high, 0 for low
 
 #ifdef RGBLIGHT_ENABLE
+    #define RGBLIGHT_LAYERS
     #define RGB_DI_PIN D3
     #define RGBLED_NUM 5
     // current rev2 PCB has 5 underglow RGB LED only and so always RGBLED_NUM=5
@@ -73,6 +74,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     //         #endif
     //     #endif
     // #endif
+
+    #define LAYER_RGBLED_START 0
+    #define LAYER_RGBLED_NUM RGBLED_NUM
 
     #ifndef IOS_DEVICE_ENABLE
         #if RGBLED_NUM <= 6
