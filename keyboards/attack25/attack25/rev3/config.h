@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0xA109
-#define DEVICE_VER      0x0002
+#define VENDOR_ID       0x04D8
+#define PRODUCT_ID      0xEACB
+#define DEVICE_VER      0x0003
 #define MANUFACTURER    monksoffunk
 #define PRODUCT         Attack25 rev3
 #define DESCRIPTION     5x5 Keyboard Pad
