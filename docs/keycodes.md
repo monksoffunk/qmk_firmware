@@ -426,7 +426,7 @@ See also: [Mod-Tap](mod_tap.md)
 |`RCAG_T(kc)` |                                                                 |Right Control, Alt and GUI when held, `kc` when tapped        |
 |`C_S_T(kc)`  |                                                                 |Left Control and Shift when held, `kc` when tapped            |
 |`MEH_T(kc)`  |                                                                 |Left Control, Shift and Alt when held, `kc` when tapped       |
-|`HYPR_T(kc)` |`ALL_T(kc)`                                                      |Left Control, Shift, Alt and GUI when held, `kc` when tapped - more info [here](http://brettterpstra.com/2012/12/08/a-useful-caps-lock-key/)|
+|`HYPR_T(kc)` |`ALL_T(kc)`                                                      |Left Control, Shift, Alt and GUI when held, `kc` when tapped - more info [here](https://brettterpstra.com/2012/12/08/a-useful-caps-lock-key/)|
 
 ## RGB Lighting :id=rgb-lighting
 
@@ -516,6 +516,9 @@ See also: [One Shot Keys](one_shot_keys.md)
 |------------|----------------------------------|
 |`OSM(mod)`  |Hold `mod` for one keypress       |
 |`OSL(layer)`|Switch to `layer` for one keypress|
+|`OS_ON`     |Turns One Shot keys on            |
+|`OS_OFF`    |Turns One Shot keys off           |
+|`OS_TOGG`   |Toggles One Shot keys status      |
 
 ## Space Cadet :id=space-cadet
 
