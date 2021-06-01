@@ -57,49 +57,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define RGB_DI_PIN F0
     #define RGBLED_NUM 5
     // current rev3 PCB has 5 underglow RGB LED only and so always RGBLED_NUM=5
-    // #ifdef RGBLED_BOTH
-    //   #define RGBLED_NUM 30
-    // #else
-    //     #ifdef RGBLED_BACK
-    //         #define RGBLED_NUM 25
-    //     #else
-    //         #ifdef RGBLED_1LED
-    //              #define RGBLED_NUM 1
-    //         #else
-    //             #define RGBLED_NUM 5
-    //         #endif
-    //     #endif
-    // #endif
 
     #define LAYER_RGBLED_START 0
     #define LAYER_RGBLED_NUM RGBLED_NUM
 
-    #ifndef IOS_DEVICE_ENABLE
-        #if RGBLED_NUM <= 6
-            #define RGBLIGHT_LIMIT_VAL 255
-        #else
-            #if RGBLED_NUM <= 16
-                #define RGBLIGHT_LIMIT_VAL 130
-            #else
-                #define RGBLIGHT_LIMIT_VAL 120
-            #endif
-        #endif
-        #define RGBLIGHT_VAL_STEP 17
-    #else
-        #if RGBLED_NUM <= 6
-            #define RGBLIGHT_LIMIT_VAL 90
-        #else
-            #if RGBLED_NUM <= 16
-                #define RGBLIGHT_LIMIT_VAL 45
-            #else
-                #define RGBLIGHT_LIMIT_VAL 35
-            #endif
-        #endif
-        #define RGBLIGHT_VAL_STEP 4
-    #endif
-
     #define RGBLIGHT_HUE_STEP 10
     #define RGBLIGHT_SAT_STEP 17
+    #define RGBLIGHT_LIMIT_VAL 255
 
     #if defined(RGBLIGHT_ENABLE) && !defined(IOS_DEVICE_ENABLE)
     // USB_MAX_POWER_CONSUMPTION value
@@ -114,5 +78,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #endif
 #endif
 
-/* NumLock LED pins */
-#define LED_NLK F1
+// NumLock LED pins F1 for SW1 LED, D4 for SW5
+#define LED_NLK F1  
+// #define LED_NLK D4 
+#ifdef LED_NLK
+    #define BACKLIGHT_PIN LED_NLK
+    #define BACKLIGHT_LEVELS 5    // The number of brightness levels (maximum 31 excluding off)
+    #define BACKLIGHT_BREATHING   // Enable backlight breathing, if supported
+    #define BREATHING_PERIOD 3    // The length of one backlight "breath" in seconds
+#endif
+
+#define VIA_EEPROM_CUSTOM_CONFIG_SIZE 1 // Custom config starts after VIA's EEPROM usage
+
