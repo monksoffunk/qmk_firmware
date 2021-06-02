@@ -26,11 +26,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DESCRIPTION     5x5 Keyboard Pad
 
 /* key matrix size */
-#define MATRIX_ROWS 5
+#define MATRIX_ROWS 6
 #define MATRIX_COLS 5
 
 /* key matrix pins */
-#define MATRIX_ROW_PINS { B0, B7, B6, B5, B4 }
+#define MATRIX_ROW_PINS { B0, B7, B6, B5, B4, F7 }
 #define MATRIX_COL_PINS { F5, F6, D2, D1, D0 }
 #define UNUSED_PINS
 

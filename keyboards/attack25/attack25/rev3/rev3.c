@@ -1,7 +1,7 @@
 #include "attack25.h"
 
 void keyboard_pre_init_kb(void) {
-  setPinOutput(LED_NLK);
+  //setPinOutput(LED_NLK);
 }
 
 #ifdef RGB_MATRIX_ENABLE

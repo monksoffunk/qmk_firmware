@@ -1,9 +1,10 @@
-﻿# The VIA Attack25 Layout for MAC/WIN
+﻿# The rev3_VIA Attack25 Layout for rev3 PCB
 ## Layout
 
 ### Default Layer
 
 ```
+                        S(Tab) Tab  ENCCCW  ENCCW
  ,-----------------------------.             
  |NumLk|  /  |  *  |  -  | Esc |             
  |-----+-----+-----+-----+-----|
@@ -11,17 +12,35 @@
  |-----+-----+-----+-----+-----|
  |  4  |  5  |  6  |BkTab|PrtSc|  PrtSc momentary on...RGB Layer
  |-----+-----+-----+-----+-----|
- |  1  |  2  |  3  | Tab | Del |
+ |  1  |  2  |  3  |Enter| Del |  Del momentary on...BLED Layer
  |-----+-----+-----+-----+-----|
- |  0  | 00  |  .  |Enter|BkSpc|
+ |  0  | 00  |  .  |Enter|BkSpc|  BackSpace momentary on...SP Layer
+ `------------------------------
+```                               Enter momentary on...NUMOFF Layer
+
+### NUMOFF Layer
+
+```
+                        S(Tab) Tab  ENCCCW  ENCCW
+ ,-----------------------------.             
+ |     |     |     |     |ENRST| ENCODER_Lock Reset            
+ |-----+-----+-----+-----+-----|
+ | Home|  Up | PgUp|     |     |
+ |-----+-----+-----+-----+-----|
+ | Left|     |Right|     |     |
+ |-----+-----+-----+-----+-----|
+ | End | Down| PgDn|     |     |
+ |-----+-----+-----+-----+-----|
+ | Ins |     | Del |     |     |
  `------------------------------
 ```
-
-### FN Layer
+ 
+ ### FN Layer
 
 ```
+                        Vol- Vol+  ENCCCW  ENCCW
  ,-----------------------------.             
- | F10 | F11 | F12 |     |     |             
+ | F10 | F11 | F12 |     |ENCLK|             
  |-----+-----+-----+-----+-----|
  |  F7 |  F8 |  F9 |     |     |
  |-----+-----+-----+-----+-----|
@@ -36,66 +55,68 @@
 ### RGB Layer
 
 ```
+                        MODR MODF  ENCCCW  ENCCW
  ,-----------------------------.             
- | TOG | MODF| HINC| SINC| VINC|             
+ | TOG | MODF| HINC|     |ENCLK|             
  |-----+-----+-----+-----+-----|
- | RST | MODR| HDEC| SDEC| VDEC|
+ | RST | MODR| HDEC|     |     |
  |-----+-----+-----+-----+-----|
- |PLAIN|BREAT| SPI |     |     |
+ | VINC| SINC| SPI |     |     |
  |-----+-----+-----+-----+-----|
- |SWIRL|SNAKE| SPD |     |     |
+ | VDEC| SDEC| SPD |     |     |
  |-----+-----+-----+-----+-----|
  |     |     |     |     |     |
  `------------------------------
 ```
 
+### BLED Layer
 
+```
+                         BL- BL+  ENCCCW  ENCCW
+ ,-----------------------------.             
+ |     |     | BL+ | BLCY|ENCLK|             
+ |-----+-----+-----+-----+-----|
+ | BRTG|     | BL- |     |     |
+ |-----+-----+-----+-----+-----|
+ |     |     |     |     |     |
+ |-----+-----+-----+-----+-----|
+ |     |     |     |     |     |
+ |-----+-----+-----+-----+-----|
+ |RESET|     |     |     |     |
+ `------------------------------
+```
+
+### SP Layer
+
+```
+                         Ctl-Z Ctl-Y  ENCCCW  ENCCW
+ ,-----------------------------.             
+ |     |     |     |     |ENCLK|             
+ |-----+-----+-----+-----+-----|
+ |     |     |     |     |     |
+ |-----+-----+-----+-----+-----|
+ |     |     |     |     |     |
+ |-----+-----+-----+-----+-----|
+ |     |     |     |     |     |
+ |-----+-----+-----+-----+-----|
+ |RESET|     |     |     |     |
+ `------------------------------
+```
 ## How to compile
 
 ```
 $ cd qmk_firmware
-$ make attack25:default
+$ make attack25:attack25/rev3:rev3_via
 ```
 
 If you want upload the firmware to the keyboard after its compilation.
 
 ```
-$ make attack25:default:avrdude
+$ make attack25:attack25/rev3:rev3_via:flash
 ```
 
 you can clean the build output folders to make sure that everything is built from scratch. Run this before normal compilation if you have some unexplainable problems.
 
 ```
-$ make attack25:default:clean
-```
-
-## Customize
-
-
-```
-### Attack25 keyboard 'default' keymap: convenient command line option
-##    make ATTACK25=<options> attack25:via
-##    option= back | under | both | 1led | matrix | na | ios | win
-##    ex.
-##      make ATTACK25=under    attack25:via
-##      make ATTACK25=under,ios attack25:via
-##      make ATTACK25=back     attack25:via
-##      make ATTACK25=back,matrix  attack25:via
-##      make ATTACK25=back,na  attack25:via
-##      make ATTACK25=back,ios attack25:via
-##      make ATTACK25=1led     attack25:via
-##      make ATTACK25=win attack25:via
-##    both is enable without any option
-
-```
-
-back...Enable backlight RGB LED
-under...Enable underglow RGB LED
-both...Enable backlight RGB LED and underglow RGB LED
-1led...Enable RGB LED at SW1
-matrix...Enable RGB_MATRIX
-na...Disable RGB animation
-ios...for iPad/iPhone
-win...for Windows type NumLock compatible
-
+$ make attack25:attack25/rev3:rev3_via:clean
 ```
