@@ -36,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_AUDIO] = LAYOUT(KC_MUTE, KC_ENT, LT(_HUE, KC_MPRV), LT(_SAT, KC_MPLY), LT(_VAL, KC_MNXT), LT(_MODE, KC_SPC)), 
     [_HUE]   = LAYOUT(RGB_TOG, RGBRST, _______, _______, RGB_HUD, RGB_HUI), 
     [_SAT]   = LAYOUT(_______, _______, _______, _______, RGB_SAD, RGB_SAI), 
-    [_VAL]   = LAYOUT(_______, _______, RGB_VAD, RGB_VAI, _______, RGB_VAI), 
+    [_VAL]   = LAYOUT(AU_TOG, CK_TOGG, RGB_VAD, RGB_VAI, _______, RGB_VAI), 
     [_MODE]  = LAYOUT(_______, WRTROM, RGB_RMOD, RGB_MOD, RGB_MOD, _______),
 };
 
