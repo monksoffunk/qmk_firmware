@@ -30,9 +30,11 @@
 #    define RGBLIGHT_LIMIT_VAL 255
 #endif
 
-// NumLock LED pin F1 for SW1 LED, D4 for SW5
+// NumLock LED pin C6
+// If solder jumper changed, F1 for SW1 LED, D4 for SW5
 #ifndef LED_NLK
-#    define LED_NLK F1
+#    define LED_NLK C6
+// #define LED_NLK F1
 // #define LED_NLK D4
 #    endif
 
@@ -40,5 +42,5 @@
 #        define BACKLIGHT_PIN LED_NLK
 #        define BACKLIGHT_LEVELS 5   // The number of brightness levels (maximum 31 excluding off)
 #        define BACKLIGHT_BREATHING  // Enable backlight breathing, if supported
-#        define BREATHING_PERIOD 3   // The length of one backlight "breath" in seconds
+#        define BREATHING_PERIOD 5   // The length of one backlight "breath" in seconds
 #    endif

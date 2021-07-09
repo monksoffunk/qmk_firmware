@@ -22,11 +22,17 @@ If your PCB is rev2.x:
     or
     make attack25/attack25/rev2:via
     
-If your PCB is rev3.x:
+If your PCB is rev3 or rev3.1:
 
     make 25keys/attack25/rev3:default
     or
     make 25keys/attack25/rev3:via
+    
+If your PCB is rev3.2 or higher:
+
+    make 25keys/attack25/rev32:default
+    or
+    make 25keys/attack25/rev32:via
     
 Flashing example for this keyboard (rev3 PCB):
 

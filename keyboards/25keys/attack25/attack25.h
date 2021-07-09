@@ -9,3 +9,6 @@
 #ifdef KEYBOARD_25keys_attack25_rev3
 #    include "rev3.h"
 #endif
+#ifdef KEYBOARD_25keys_attack25_rev32
+#    include "rev32.h"
+#endif
