@@ -15,7 +15,7 @@ rgblight_config_t rgblight_config_bak;
 
 void update_led_status(void) {
     if (rgblight_config_bak.enable != rgblight_config.enable || rgblight_config_bak.mode != rgblight_config.mode || rgblight_config_bak.hue != rgblight_config.hue || rgblight_config_bak.sat != rgblight_config.sat || rgblight_config_bak.val != rgblight_config.val) {
-        snprintf(led_buf, sizeof(led_buf) - 1, "%c H%2d S%2d V%2d MODE%2d", rgblight_config.enable ? '*' : '.', (uint8_t)(rgblight_config.hue / RGBLIGHT_HUE_STEP), (uint8_t)(rgblight_config.sat / RGBLIGHT_SAT_STEP), (uint8_t)(rgblight_config.val / RGBLIGHT_VAL_STEP), (uint8_t)rgblight_config.mode);
+        snprintf(led_buf, sizeof(led_buf) - 1, "%c H%2d S%2d V%2d MODE%2d\n", rgblight_config.enable ? '*' : '.', (uint8_t)(rgblight_config.hue / RGBLIGHT_HUE_STEP), (uint8_t)(rgblight_config.sat / RGBLIGHT_SAT_STEP), (uint8_t)(rgblight_config.val / RGBLIGHT_VAL_STEP), (uint8_t)rgblight_config.mode);
         rgblight_config_bak = rgblight_config;
     }
 }

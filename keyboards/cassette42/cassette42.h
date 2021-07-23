@@ -25,6 +25,8 @@
  * The second converts the arguments into a two-dimensional array which
  * represents the switch matrix.
  */
+
+#ifndef LAYOUT
 #define LAYOUT( \
         k10,  k11,   \
     k00, k01, k02, k03\
@@ -32,3 +34,4 @@
 { \
     { k00, k01, k02, k03, k10, k11 }, \
 }
+#endif
