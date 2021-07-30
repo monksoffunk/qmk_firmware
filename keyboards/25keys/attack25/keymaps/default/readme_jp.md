@@ -111,22 +111,22 @@
 ```
 $ cd qmk_firmware
 ```
-qmk_firmwareでは各キーボードのコンパイルは、`<キーボード名>:<キーマップ名>`という指定で行います。rev3のPCB用にdefaultキーマップのファームウェアをコンパイルするには以下のようにします。
+qmk_firmwareでは各キーボードのコンパイルは、`<キーボード名>:<キーマップ名>`という指定で行います。rev1のPCB用にdefaultキーマップのファームウェアをコンパイルするには以下のようにします。
 
 ```
-$ make 25keys/attack25/rev3:default
+$ make 25keys/attack25/rev1:default
 ```
 
-キーボードへの書き込みまで同時に行うには下記のようにします。
+rev3.2のPCB用にdefaultキーマップのファームウェアをコンパイルしてキーボードへの書き込みまで同時に行うには下記のようにします。
 
 ```
-$ make 25keys/attack25/rev3:default:flash
+$ make 25keys/attack25/rev32:default:flash
 ```
 
 VIA ConfiguratorやRemap対応ファームをコンパイル後にすぐさま書き込む場合は以下のようにします。一般的にはviaキーマップを書き込むことをおすすめします。
 
 ```
-$ make 25keys/attack25/rev3:via:flash
+$ make 25keys/attack25/rev1:via:flash
 ```
 
 ## カスタマイズ

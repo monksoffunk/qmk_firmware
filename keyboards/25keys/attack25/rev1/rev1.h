@@ -16,25 +16,21 @@
 
 #pragma once
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 6
+#include "quantum.h"
+#include "../common/attack25_defaults.h"
+#include "../common/rgb_matrix_layer.h"
+#include "../common/led_func.h"
 
-// place overrides here
-// Selection of RGBLIGHT MODE to use.
-#if defined(LED_ANIMATIONS)
-#    define RGBLIGHT_ANIMATIONS
-// #    define RGBLIGHT_EFFECT_BREATHING
-// #    define RGBLIGHT_EFFECT_RAINBOW_MOOD
-// #    define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-// #    define RGBLIGHT_EFFECT_SNAKE
-// #    define RGBLIGHT_EFFECT_KNIGHT
-// #    define RGBLIGHT_EFFECT_CHRISTMAS
-// #    define RGBLIGHT_EFFECT_STATIC_GRADIENT
-//#define RGBLIGHT_EFFECT_RGB_TEST
-//#define RGBLIGHT_EFFECT_ALTERNATING
-#endif
-
-// color setting for lighting layers
-#define _NUMOFF_HSV HSV_CYAN - 100
-#define _FN_HSV HSV_ORANGE - 100
-#define _MAC_HSV HSV_MAGENTA - 100
-#define _WIN_HSV HSV_TEAL
+#define LAYOUT( \
+	K00, K01, K02, K03, K04, \
+	K10, K11, K12, K13, K14, \
+	K20, K21, K22, K23, K24, \
+	K30, K31, K32, K33, K34, \
+	K40, K41, K42, K43, K44  \
+) { \
+	{ K00,   K01,   K02,   K03,   K04 }, \
+	{ K10,   K11,   K12,   K13,   K14 }, \
+	{ K20,   K21,   K22,   K23,   K24 }, \
+	{ K30,   K31,   K32,   K33,   K34 }, \
+	{ K40,   K41,   K42,   K43,   K44 }  \
+}

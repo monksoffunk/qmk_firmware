@@ -27,11 +27,6 @@ extern void rgb_matrix_update_pwm_buffers(void);
 #   define BLINK_DURATION 500
 #endif
 
-#if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-extern RGB_CONFIG_t RGB_CONFIG;
-extern RGB_CONFIG_t RGB_current_config;
-#endif
-
 #ifndef USER_CUSTOM_LIGHTING_LAYER
 #    ifdef RGB_MATRIX_ENABLE
 const HSV rgb_matrix_layers[] PROGMEM = {
@@ -44,11 +39,11 @@ const HSV rgb_matrix_layers[] PROGMEM = {
 #endif
 
 void blink_indicator(uint8_t blink_rgb_layer, uint8_t blink_num) {
-#if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-    RGB_current_config = RGB_CONFIG;
+#ifdef RGBLIGHT_ENABLE
+    extern RGB_CONFIG_t RGB_CONFIG;
+    RGB_CONFIG_t        RGB_current_config = RGB_CONFIG;
 #endif
 #ifdef BACKLIGHT_ENABLE
-//    bool breathing = is_backlight_breathing();
     breathing_disable();
 #endif
     for(uint8_t i = 0 ; i < blink_num ; i++) {
@@ -56,11 +51,8 @@ void blink_indicator(uint8_t blink_rgb_layer, uint8_t blink_num) {
         rgblight_mode_noeeprom(0);
         rgblight_set_layer_state(blink_rgb_layer, true);
         rgblight_enable_noeeprom();
-#elif RGB_MATRIX_ENABLE
-        for(uint8_t j = 0; j < 4 ; j++) {
-            //dprintf("%u HSV: %u, %u, %u\n", j, pgm_read_byte(&rgb_matrix_layers[j].h),pgm_read_byte(&rgb_matrix_layers[j].s),pgm_read_byte(&rgb_matrix_layers[j].v));
-        }
-        rgb_matrix_layer_helper(pgm_read_byte(&rgb_matrix_layers[blink_rgb_layer].h), pgm_read_byte(&rgb_matrix_layers[blink_rgb_layer].s),pgm_read_byte(&rgb_matrix_layers[blink_rgb_layer].v), 0, rgb_matrix_config.speed, LED_FLAG_INDICATOR);
+#elif defined(RGB_MATRIX_ENABLE)
+        rgb_matrix_layer_helper(pgm_read_byte(&rgb_matrix_layers[blink_rgb_layer].h), pgm_read_byte(&rgb_matrix_layers[blink_rgb_layer].s),pgm_read_byte(&rgb_matrix_layers[blink_rgb_layer].v), 0, rgb_matrix_config.speed, BLINK_LED_FLAG);
         rgb_matrix_update_pwm_buffers();
 #endif
 #ifdef BACKLIGHT_ENABLE
@@ -69,8 +61,8 @@ void blink_indicator(uint8_t blink_rgb_layer, uint8_t blink_num) {
         wait_ms(BLINK_DURATION);
 #ifdef RGBLIGHT_ENABLE
         rgblight_disable_noeeprom();
-#elif RGB_MATRIX_ENABLE
-        rgb_matrix_turnoff(LED_FLAG_INDICATOR);
+#elif defined(RGB_MATRIX_ENABLE)
+        rgb_matrix_turnoff(BLINK_LED_FLAG);
         rgb_matrix_update_pwm_buffers();
 #endif
 #ifdef BACKLIGHT_ENABLE
@@ -80,14 +72,14 @@ void blink_indicator(uint8_t blink_rgb_layer, uint8_t blink_num) {
     }
 #ifdef RGBLIGHT_ENABLE
     rgblight_set_layer_state(blink_rgb_layer, false);
-    rgblight_mode_noeeprom(RGB_current_config.mode);
     rgb_sethsv_noeeprom(RGB_current_config_hue, RGB_current_config_sat, RGB_current_config_val);
     if (RGB_current_config.enable) {
         rgblight_enable_noeeprom();
     } else {
         rgblight_disable_noeeprom();
     }
-#elif RGB_MATRIX_ENABLE
+    rgblight_mode_noeeprom(RGB_current_config.mode);
+#elif defined(RGB_MATRIX_ENABLE)
     rgb_matrix_enable_noeeprom();
 #endif
 #ifdef BACKLIGHT_ENABLE

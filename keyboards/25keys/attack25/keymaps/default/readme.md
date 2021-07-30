@@ -102,3 +102,18 @@
  |RESET|     |     |     |     |
  `------------------------------
 ```
+
+## Build
+
+Run the command according to the revision of the PCB.
+For rev1.x PCB:
+
+```
+$ make 25keys/attack25/rev1:via
+```
+
+Build for rev3.2 PCB and flash the firmware:
+
+```
+$ make 25keys/attack25/rev32:default:flash
+```
