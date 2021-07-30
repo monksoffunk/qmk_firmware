@@ -77,7 +77,7 @@
 
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
-#ifdef rev3
+#ifdef attack25_rev3x
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NUM] = LAYOUT_wrapper(
         __________NUM_E__________,

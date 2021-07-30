@@ -61,4 +61,4 @@
 
 #define VIA_EEPROM_CUSTOM_CONFIG_SIZE 1 // Custom config starts after VIA's EEPROM usage
 
-#define rev3
+#define attack25_rev3x
