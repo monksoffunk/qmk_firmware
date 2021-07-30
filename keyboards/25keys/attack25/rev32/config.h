@@ -60,3 +60,5 @@
 #define NO_ACTION_FUNCTION
 
 #define VIA_EEPROM_CUSTOM_CONFIG_SIZE 1 // Custom config starts after VIA's EEPROM usage
+
+#define rev3

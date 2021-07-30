@@ -57,13 +57,16 @@ void keyboard_pre_init_kb(void) {
     RGB_current_config = RGB_CONFIG;
     rgblight_layers    = rgb_layers;
 #endif
-#if defined(MODE_BLINK_ENABLE)
-    blink_indicator(2 + !user_config.mac_mode, 2 + !user_config.mac_mode * 2);
-#endif
     keyboard_pre_init_user();
 }
 
-void keyboard_post_init_kb(void) { debug_enable = true; }
+void keyboard_post_init_kb(void) {
+#if defined(MODE_BLINK_ENABLE)
+    blink_indicator(2 + !user_config.mac_mode, 2 + !user_config.mac_mode * 2);
+#endif
+    debug_enable = true;
+    keyboard_post_init_user();
+}
 
 void matrix_scan_kb(void) {
     if (user_config.mac_mode) {
@@ -216,7 +219,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
         if (get_highest_layer(layer_state) < _FN) {
         layer_on(encoder_lock_layer);
         encoder_layer_locked = true;
-        } 
+        }
         action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
         action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
         if (encoder_layer_locked) {

@@ -57,13 +57,16 @@ void keyboard_pre_init_kb(void) {
     RGB_current_config = RGB_CONFIG;
     rgblight_layers    = rgb_layers;
 #endif
-#if defined(MODE_BLINK_ENABLE)
-    blink_indicator(2 + !user_config.mac_mode, 2 + !user_config.mac_mode * 2);
-#endif
     keyboard_pre_init_user();
 }
 
-void keyboard_post_init_kb(void) { debug_enable = true; }
+void keyboard_post_init_kb(void) {
+#if defined(MODE_BLINK_ENABLE)
+    blink_indicator(2 + !user_config.mac_mode, 2 + !user_config.mac_mode * 2);
+#endif
+    debug_enable = true;
+    keyboard_post_init_user();
+    }
 
 void matrix_scan_kb(void) {
     if (user_config.mac_mode) {
