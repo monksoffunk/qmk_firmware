@@ -62,3 +62,6 @@
 #define VIA_EEPROM_CUSTOM_CONFIG_SIZE 1 // Custom config starts after VIA's EEPROM usage
 
 #define attack25_rev3x
+
+/* for Alps Encoders */
+// #define ENCODER_RESOLUTION 2
