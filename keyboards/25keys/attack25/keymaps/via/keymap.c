@@ -52,7 +52,7 @@
 #define __________BLED_5_________  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
 
 // [_SP] layer 5
-#define ___________SP_1__________  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  EN_SP
+#define ___________SP_1__________  CH_ENCR,  XXXXXXX,  XXXXXXX,  XXXXXXX,  EN_SP
 #define ___________SP_2__________  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
 #define ___________SP_3__________  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
 #define ___________SP_4__________  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX

@@ -34,7 +34,8 @@ enum attack25_custom_keycodes {
     EN_FN,
     EN_RGB,
     EN_BLED,
-    EN_SP
+    EN_SP,
+    CH_ENCR
     };
 #endif
 
@@ -43,6 +44,7 @@ typedef union {
   uint32_t raw;
   struct {
     bool mac_mode :1;
+    uint8_t encoder_resolution : 3;
   };
 } user_config_t;
 #endif
