@@ -23,6 +23,7 @@ user_config_t user_config;
 void eeconfig_init_kb(void) {
     user_config.raw      = 0;
     user_config.mac_mode = true;
+    user_config.encoder_resolution = ENCODER_RESOLUTION;
     eeconfig_update_kb(user_config.raw);
     eeconfig_init_user();
 }
@@ -51,6 +52,12 @@ static uint16_t numcheck_timer;
 void keyboard_pre_init_kb(void) {
     // Read the user config from EEPROM
     user_config.raw = eeconfig_read_user();
+    if ((user_config.encoder_resolution == 0) || (user_config.encoder_resolution > 4)) {
+        user_config.encoder_resolution = 4;
+        eeconfig_update_user(user_config.raw);
+    }
+        encoder_set_resolution(0, user_config.encoder_resolution);
+    encoder_set_resolution(0, user_config.encoder_resolution);
     numcheck_timer  = timer_read();
 #if defined(RGBLIGHT_ENABLE)
     rgblight_init();
@@ -163,7 +170,17 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 tap_code(KC_P0);
             }
             return false;
-    }
+
+        case CH_ENCR:
+            if (record->event.pressed) {
+            } else {
+                user_config.encoder_resolution = (user_config.encoder_resolution << 1) & 7;
+                if (user_config.encoder_resolution == 0) { user_config.encoder_resolution = 1; }
+                encoder_set_resolution(0, user_config.encoder_resolution);
+                eeconfig_update_user(user_config.raw);
+            }
+            return false;
+                }
     return process_record_user(keycode, record);
 }
 

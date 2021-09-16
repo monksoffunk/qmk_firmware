@@ -63,5 +63,4 @@
 
 #define attack25_rev3x
 
-/* for Alps Encoders */
-// #define ENCODER_RESOLUTION 2
+#define ENCODER_RESOLUTION 4
