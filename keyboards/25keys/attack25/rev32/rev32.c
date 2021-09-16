@@ -52,6 +52,10 @@ static uint16_t numcheck_timer;
 void keyboard_pre_init_kb(void) {
     // Read the user config from EEPROM
     user_config.raw = eeconfig_read_user();
+    if ((user_config.encoder_resolution == 0) || (user_config.encoder_resolution > 4)) {
+        user_config.encoder_resolution = 4;
+        eeconfig_update_user(user_config.raw);
+    }
     encoder_set_resolution(0, user_config.encoder_resolution);
     numcheck_timer  = timer_read();
 #if defined(RGBLIGHT_ENABLE)
