@@ -24,3 +24,4 @@ OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
 
 SRC += ./common/oled_helper.c
+LTO_ENABLE = yes
