@@ -1,5 +1,4 @@
-/*
- * Copyright 2018 Jack Humbert <jack.humb@gmail.com>
+/* Copyright 2020 monksoffunk
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
-#include "quantum.h"
-
-void encoder_init(void);
-bool encoder_read(void);
-
-bool encoder_update_kb(uint8_t index, bool clockwise);
-bool encoder_update_user(uint8_t index, bool clockwise);
-
-#ifdef SPLIT_KEYBOARD
-void encoder_state_raw(uint8_t* slave_state);
-void encoder_update_raw(uint8_t* slave_state);
+#ifndef IOS_DEVICE_ENABLE
+#    define USB_MAX_POWER_CONSUMPTION 400
+#else
+// fix iPhone and iPad power adapter issue
+// iOS device need lessthan 100
+    #define USB_MAX_POWER_CONSUMPTION 100
 #endif
-
-void encoder_set_resolution(uint8_t index, uint8_t resolution);

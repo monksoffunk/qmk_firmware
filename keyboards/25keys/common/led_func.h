@@ -1,5 +1,4 @@
-/*
- * Copyright 2018 Jack Humbert <jack.humb@gmail.com>
+/* Copyright 2020 monksoffunk
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <stdbool.h>
 
-#include "quantum.h"
+void blink_indicator(uint8_t blink_rgb_layer, uint8_t blink_num);
+void numlock_backlight(bool NumLock_Mode);
 
-void encoder_init(void);
-bool encoder_read(void);
-
-bool encoder_update_kb(uint8_t index, bool clockwise);
-bool encoder_update_user(uint8_t index, bool clockwise);
-
-#ifdef SPLIT_KEYBOARD
-void encoder_state_raw(uint8_t* slave_state);
-void encoder_update_raw(uint8_t* slave_state);
-#endif
-
-void encoder_set_resolution(uint8_t index, uint8_t resolution);
+#define RGB_MATRIX_LAYERS_LIST(...) { __VA_ARGS__, NULL }

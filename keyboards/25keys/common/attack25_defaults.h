@@ -1,5 +1,4 @@
-/*
- * Copyright 2018 Jack Humbert <jack.humb@gmail.com>
+/* Copyright 2020 monksoffunk
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,17 +16,35 @@
 
 #pragma once
 
-#include "quantum.h"
+enum attack25_layer_number {
+    _NUM = 0,
+    _NUMOFF,
+    _FN,
+    _RGB,
+    _BLED,
+    _SP
+    };
 
-void encoder_init(void);
-bool encoder_read(void);
-
-bool encoder_update_kb(uint8_t index, bool clockwise);
-bool encoder_update_user(uint8_t index, bool clockwise);
-
-#ifdef SPLIT_KEYBOARD
-void encoder_state_raw(uint8_t* slave_state);
-void encoder_update_raw(uint8_t* slave_state);
+#ifndef ATTACK25_CUSTOM_KEYCODES
+enum attack25_custom_keycodes {
+    RGBRST = SAFE_RANGE,
+    P00,
+    WINMAC,
+    EN_RST,
+    EN_FN,
+    EN_RGB,
+    EN_BLED,
+    EN_SP,
+    CH_ENCR
+    };
 #endif
 
-void encoder_set_resolution(uint8_t index, uint8_t resolution);
+#ifndef ATTACK25_CUSTOM_USER_EEPROM
+typedef union {
+  uint32_t raw;
+  struct {
+    bool mac_mode :1;
+    uint8_t encoder_resolution : 3;
+  };
+} user_config_t;
+#endif

@@ -1,5 +1,4 @@
-/*
- * Copyright 2018 Jack Humbert <jack.humb@gmail.com>
+/* Copyright 2020 monksoffunk
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,17 +16,24 @@
 
 #pragma once
 
-#include "quantum.h"
+#define DYNAMIC_KEYMAP_LAYER_COUNT 6
 
-void encoder_init(void);
-bool encoder_read(void);
-
-bool encoder_update_kb(uint8_t index, bool clockwise);
-bool encoder_update_user(uint8_t index, bool clockwise);
-
-#ifdef SPLIT_KEYBOARD
-void encoder_state_raw(uint8_t* slave_state);
-void encoder_update_raw(uint8_t* slave_state);
+// place overrides here
+// Selection of RGBLIGHT MODE to use.
+#if defined(LED_ANIMATIONS)
+#    define RGBLIGHT_EFFECT_BREATHING
+#    define RGBLIGHT_EFFECT_RAINBOW_MOOD
+#    define RGBLIGHT_EFFECT_RAINBOW_SWIRL
+#    define RGBLIGHT_EFFECT_SNAKE
+#    define RGBLIGHT_EFFECT_KNIGHT
+#    define RGBLIGHT_EFFECT_CHRISTMAS
+#    define RGBLIGHT_EFFECT_STATIC_GRADIENT
+//#define RGBLIGHT_EFFECT_RGB_TEST
+//#define RGBLIGHT_EFFECT_ALTERNATING
 #endif
 
-void encoder_set_resolution(uint8_t index, uint8_t resolution);
+// color setting for lighting layers
+#define _NUMOFF_HSV HSV_CYAN - 100
+#define _FN_HSV HSV_ORANGE - 100
+#define _MAC_HSV HSV_MAGENTA - 100
+#define _WIN_HSV HSV_TEAL
