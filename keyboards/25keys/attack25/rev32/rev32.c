@@ -184,7 +184,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
 }
 
 #ifdef RGBLIGHT_ENABLE
-layer_state_t layer_state_set_kb(uint32_t state) {
+layer_state_t layer_state_set_kb(layer_state_t state) {
     dprintf("layer_state %08lX(%u)\n", layer_state, get_highest_layer(layer_state));
     dprintf("default_layer_state %08lX(%u)\n", default_layer_state, get_highest_layer(default_layer_state));
 
