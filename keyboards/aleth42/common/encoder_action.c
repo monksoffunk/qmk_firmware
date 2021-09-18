@@ -28,7 +28,7 @@ void encoder_action_unregister(uint8_t *locklayer) {
     bool layerlocked = false;
     for (int index = 0; index < ENCODERS; ++index) {
         if (encoder_state[index]) {
-            if (get_highest_layer(layer_state) == 0) {
+            if ((get_highest_layer(layer_state) == 0) && (locklayer[index] > 0)) {
                 layer_on(locklayer[index]);
                 layerlocked = true;
             }
@@ -50,7 +50,7 @@ void encoder_action_unregister(uint8_t *locklayer) {
 void encoder_action_register(uint8_t index, bool clockwise, uint8_t *locklayer) {
 #ifdef ENCODERS
     bool layerlocked = false;
-    if (get_highest_layer(layer_state) == 0) {
+    if ((get_highest_layer(layer_state) == 0) && (locklayer[index] > 0)) {
         layer_on(locklayer[index]);
         layerlocked = true;
     }

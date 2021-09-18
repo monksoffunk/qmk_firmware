@@ -99,7 +99,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         case ENC_03:
         case ENC_04:
             if (record->event.pressed) {
-                if (encoderlocklayer[0] != keycode - ENC_00) { encoderlocklayer[0] = keycode - ENC_00; }
+                if (encoderlocklayer[0] != keycode - ENC_00) {
+                    encoderlocklayer[0] = keycode - ENC_00;
+                } else {
+                    encoderlocklayer[0] = 0;
+                }
             }
             return false;
             break;
@@ -109,7 +113,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         case ENC_13:
         case ENC_14:
             if (record->event.pressed) {
-                if (encoderlocklayer[1] != keycode - ENC_10) { encoderlocklayer[1] = keycode - ENC_10; }
+                if (encoderlocklayer[1] != keycode - ENC_10) {
+                    encoderlocklayer[1] = keycode - ENC_10;
+                } else {
+                    encoderlocklayer[1] = 0;
+                }
             }
             return false;
             break;
