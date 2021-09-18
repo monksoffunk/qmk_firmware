@@ -83,6 +83,16 @@ enum kb_keycodes {
     ENCADJ = SAFE_RANGE,
     CHENCR0,
     CHENCR1,
+    ENC_00,
+    ENC_01,
+    ENC_02,
+    ENC_03,
+    ENC_04,
+    ENC_10,
+    ENC_11,
+    ENC_12,
+    ENC_13,
+    ENC_14,
     USR_SAFE_RANGE,
 };
 #else

@@ -1,4 +1,5 @@
 /* Copyright 2020 Neil Brian Ramirez
+ * Copyright 2021 monksoffunk
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +23,15 @@ static keypos_t encoder_cw[ENCODERS] = ENCODERS_CW_KEY;
 static keypos_t encoder_ccw[ENCODERS] = ENCODERS_CCW_KEY;
 #endif
 
-void encoder_action_unregister(void) {
+void encoder_action_unregister(uint8_t *locklayer) {
 #ifdef ENCODERS
+    bool layerlocked = false;
     for (int index = 0; index < ENCODERS; ++index) {
         if (encoder_state[index]) {
+            if (get_highest_layer(layer_state) == 0) {
+                layer_on(locklayer[index]);
+                layerlocked = true;
+            }
             keyevent_t encoder_event = (keyevent_t) {
                 .key = encoder_state[index] >> 1 ? encoder_cw[index] : encoder_ccw[index],
                 .pressed = false,
@@ -33,13 +39,21 @@ void encoder_action_unregister(void) {
             };
             encoder_state[index] = 0;
             action_exec(encoder_event);
+            if (layerlocked) {
+                layer_off(locklayer[index]);
+            }
         }
     }
 #endif
 }
 
-void encoder_action_register(uint8_t index, bool clockwise) {
+void encoder_action_register(uint8_t index, bool clockwise, uint8_t *locklayer) {
 #ifdef ENCODERS
+    bool layerlocked = false;
+    if (get_highest_layer(layer_state) == 0) {
+        layer_on(locklayer[index]);
+        layerlocked = true;
+    }
     keyevent_t encoder_event = (keyevent_t) {
         .key = clockwise ? encoder_cw[index] : encoder_ccw[index],
         .pressed = true,
@@ -47,5 +61,8 @@ void encoder_action_register(uint8_t index, bool clockwise) {
     };
     encoder_state[index] = (clockwise ^ 1) | (clockwise << 1);
     action_exec(encoder_event);
+    if (layerlocked) {
+        layer_off(locklayer[index]);
+    }
 #endif
 }

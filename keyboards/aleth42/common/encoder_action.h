@@ -1,4 +1,5 @@
 /* Copyright 2020 Neil Brian Ramirez
+ * Copyright 2021 monksoffunk
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +17,6 @@
 
 #include "quantum.h"
 
-void encoder_action_unregister(void);
+void encoder_action_unregister(uint8_t *locklayer);
 
-void encoder_action_register(uint8_t index, bool clockwise);
+void encoder_action_register(uint8_t index, bool clockwise, uint8_t *locklayer);

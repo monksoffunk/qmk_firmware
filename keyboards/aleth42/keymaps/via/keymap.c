@@ -40,7 +40,7 @@ enum custom_keycodes {
      * |-----------------------------------------------------------|
      * | Tab |  A |  S |  D |  F |  G |  H |  J |  K |  L | Ent    |
      * |-----------------------------------------------------------|
-     * | LSft   |  Z |  X |  C |  V |  B |  N |  M |  , |  . |fn(/)|
+     * | LSft   |  Z |  X |  C |  V |  B |  N |  M |  , | . |fn2(/)|
      * |-----------------------------------------------------------|
      * | Esc  | LAlt| LGui|  spc fn0  |  spc fn1    |RGui|RAlt|RCtl|
      * `-----------------------------------------------------------'
@@ -51,17 +51,9 @@ enum custom_keycodes {
 #define __________DEFAULT_3__________   KC_LSFT, KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,  LT(_ADJUST, KC_SLSH)
 #define __________DEFAULT_4__________   MT(MOD_LCTL, KC_ESC), KC_LALT   , KC_LGUI, LT(_LOWER, KC_SPC),   LT(_RAISE, KC_SPC), KC_RGUI, KC_RALT, KC_RCTL
 
-/*     [_QWERTY] = LAYOUT(
-
-        KC_ESC,  KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,    KC_O,    KC_P,   KC_BSPC,
-        MT(MOD_LCTL, KC_TAB),  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    KC_ENT,
-        KC_LSFT, KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,  LT(_ADJUST, KC_SLSH),
-        MT(MOD_LCTL, KC_ESC), KC_LALT   , KC_LGUI, LT(_LOWER, KC_SPC),   LT(_RAISE, KC_SPC), KC_RGUI, KC_RALT, KC_RCTL
-        ), */
-
  /* Lower Layer
      * ,-----------------------------------------------------------.
-     * |  ~ |  ! |  @ |  # |  $ |  % |  ^ |  & |  * |  ( |  ) | Del|
+     * |  ~ |  ! |  @ |  # |  $ |  % |  ^ |  & |  * |  ( |  ) |EN11|
      * |-----------------------------------------------------------|
      * |        |    |    |    |    |     | _ | + | { | } |  Pipe  |
      * |-----------------------------------------------------------|
@@ -71,18 +63,11 @@ enum custom_keycodes {
      * `-----------------------------------------------------------'
      */
 
-#define ___________LOWER_1___________   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL
+#define ___________LOWER_1___________   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, ENC_11
 #define ___________LOWER_2___________   _______, _______, _______, _______, _______, _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE
 #define ___________LOWER_3___________   _______, _______, _______, _______, _______, _______, _______, KC_SCLN, KC_QUOT, KC_UP,   _______
 #define ___________LOWER_4___________   _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT
 
-/*     [_LOWER] = LAYOUT(
-        KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,
-		_______, _______, _______, _______, _______, _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
-		_______, _______, _______, _______, _______, _______, _______, KC_SCLN, KC_QUOT, KC_UP,   _______,
-		_______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT
-		),
- */
 	/* Raise Layer
      * ,-----------------------------------------------------------.
      * |  ` |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |  0 | Del|
@@ -100,20 +85,13 @@ enum custom_keycodes {
 #define ___________RAISE_3___________   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, _______, _______, _______
 #define ___________RAISE_4___________   _______, _______, _______, _______, _______, _______, _______, _______
 
-/*     [_RAISE] = LAYOUT(
-        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
-		KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
-		KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, _______, _______, _______,
-		_______, _______, _______, _______, _______, _______, _______, _______
-		), */
-
 	/* Adjust Layer
      * ,-----------------------------------------------------------.
      * |Mute| F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10|F11 |
      * |-----------------------------------------------------------|
      * |ENCADJ |BTOG |BSTP|BINC| MAC|RGBTOG|HUI|WIN|SAI|VAI|  F12  |
      * |-----------------------------------------------------------|
-     * |   Caps   |Reset|BBRE|BDEC|    |RMOD|HUD |   |SAD|VAD |    |
+     * |   Caps   |     |BBRE|BDEC|    |RMOD|HUD |   |SAD|VAD |    |
      * |-----------------------------------------------------------|
      * |SLEEP|    |     |           |             |     |    |     |
      * `-----------------------------------------------------------'
@@ -121,29 +99,22 @@ enum custom_keycodes {
 
 #define __________ADJUST_1___________   KC_MUTE, KC_F1,   KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11
 #define __________ADJUST_2___________   MO(_ENCADJ), BL_TOGG, BL_STEP, BL_INC,  AG_NORM,  RGB_TOG, RGB_HUI, AG_SWAP, RGB_SAI, RGB_VAI,  KC_F12
-#define __________ADJUST_3___________   KC_CAPS, RESET,   BL_BRTG, BL_DEC,  _______,  RGB_MOD, RGB_HUD, _______, RGB_SAD, RGB_VAD,  _______
+#define __________ADJUST_3___________   KC_CAPS, _______,   BL_BRTG, BL_DEC,  _______,  RGB_MOD, RGB_HUD, _______, RGB_SAD, RGB_VAD,  _______
 #define __________ADJUST_4___________   KC_SLEP, _______, _______, _______, _______, _______, _______, _______
-
-/*     [_ADJUST] = LAYOUT(
-        KC_MUTE, KC_F1,   KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
-		MO(_ENCADJ), BL_TOGG, BL_STEP, BL_INC,  AG_NORM,  RGB_TOG, RGB_HUI, AG_SWAP, RGB_SAI, RGB_VAI,  KC_F12,
-		KC_CAPS, RESET,   BL_BRTG, BL_DEC,  _______,  RGB_MOD, RGB_HUD, _______, RGB_SAD, RGB_VAD,  _______,
-		KC_SLEP, _______, _______, _______, _______, _______, _______, _______
-		), */
 
     /* Encoder Adj Layer
      * ,-----------------------------------------------------------.
-     * |    |    |    |    |    |    |    |    |    |    |    |    |
+     * |EN00|EN01|EN02|EN03|    |    |    |    |EN13|EN12|EN11|EN10|
      * |-----------------------------------------------------------|
      * |ENCADJ|CHENCR0|CHENCR1|    |    |      |   |   |   |   |   |
      * |-----------------------------------------------------------|
-     * |          |     |    |    |    |    |    |   |   |    |    |
+     * |          |Reset|    |    |    |    |    |   |   |    |    |
      * |-----------------------------------------------------------|
      * |     |    |     |           |             |     |    |     |
      * `-----------------------------------------------------------'
       */
 
-#define __________ENCADJ_1___________   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+#define __________ENCADJ_1___________   ENC_00,  ENC_01,  ENC_02,  ENC_03,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ENC_13,  ENC_12,  ENC_11,  ENC_10
 #ifdef ENCODER_ENABLE
 #define __________ENCADJ_2___________   _______, CHENCR0, CHENCR1, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
 #else
@@ -151,13 +122,6 @@ enum custom_keycodes {
 #endif
 #define __________ENCADJ_3___________   XXXXXXX, RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
 #define __________ENCADJ_4___________   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-
-/*     [_ENCADJ] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-		_______, CHENCR0, CHENCR1, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,
-		XXXXXXX, RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  _______,
-		XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-		) */
 
 #ifdef ENCODER_ENABLE
 // keycodes setting for encoder             LEFT_CCW    LEFT_CW   RIGHT_CCW   RIGHT_CW

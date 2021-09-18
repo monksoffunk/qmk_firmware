@@ -17,7 +17,10 @@
 #include "rev1.h"
 
 user_config_t user_config;
-//uint8_t encoder_resolution[NUMBER_OF_ENCODERS];
+
+#ifdef ENCODER_ENABLE
+uint8_t encoderlocklayer[] =  {0, 0};
+#endif
 
 void eeconfig_init_kb(void) {
     user_config.raw      = 0;
@@ -47,12 +50,12 @@ void keyboard_pre_init_kb(void) {
 
 #ifdef ENCODER_ENABLE
 void matrix_scan_kb(void) {
-    encoder_action_unregister();
+    encoder_action_unregister(encoderlocklayer);
     matrix_scan_user();
 }
 
 bool encoder_update_kb(uint8_t index, bool clockwise) {
-    encoder_action_register(index, clockwise);
+    encoder_action_register(index, clockwise, encoderlocklayer);
     return true;
 }
 #endif
@@ -87,6 +90,26 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 if (user_config.encoder_resolutions[index] == 0) { user_config.encoder_resolutions[index] = 1; }
                 encoder_set_resolution(index, user_config.encoder_resolutions[index]);
                 eeconfig_update_kb(user_config.raw);
+            }
+            return false;
+            break;
+        case ENC_00:
+        case ENC_01:
+        case ENC_02:
+        case ENC_03:
+        case ENC_04:
+            if (record->event.pressed) {
+                if (encoderlocklayer[0] != keycode - ENC_00) { encoderlocklayer[0] = keycode - ENC_00; }
+            }
+            return false;
+            break;
+        case ENC_10:
+        case ENC_11:
+        case ENC_12:
+        case ENC_13:
+        case ENC_14:
+            if (record->event.pressed) {
+                if (encoderlocklayer[1] != keycode - ENC_10) { encoderlocklayer[1] = keycode - ENC_10; }
             }
             return false;
             break;
