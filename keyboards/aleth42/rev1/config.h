@@ -24,23 +24,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID 0xEAC8
 #define DEVICE_VER 0x0001
 #define MANUFACTURER 25KEYS
+
+#ifdef ENCODER_ENABLE
+#define PRODUCT ALETH42 with encoder
+#else
 #define PRODUCT ALETH42
+#endif
 
 /* key matrix size */
+#ifdef ENCODER_ENABLE
+#define MATRIX_ROWS 5
+#else
 #define MATRIX_ROWS 4
+#endif
 #define MATRIX_COLS 11
 
 /* key matrix pins */
+#ifdef ENCODER_ENABLE
+#define MATRIX_ROW_PINS { B4, B0, B2, B1, NO_PIN }
+#else
 #define MATRIX_ROW_PINS { B4, B0, B2, B1 }
+#endif
 #define MATRIX_COL_PINS { D5, D3, D2, D1, D0, D6, D4, F7, F0, F1, F4 }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL*/
 #define DIODE_DIRECTION COL2ROW
 
+/* encoders */
+#define ENCODERS 2
+
+#define ENCODERS_CCW_KEY { { 0, 4 },{ 2, 4 } }
+#define ENCODERS_CW_KEY  { { 1, 4 },{ 3, 4 } }
+
 #define ENCODERS_PAD_A { B5, F5 }
 #define ENCODERS_PAD_B { B6, F6 }
 
+#define ENCODER_RESOLUTIONS { 4, 4 }
+
+/* lighting */
 #define BACKLIGHT_PIN C6
 #define BACKLIGHT_BREATHING
 #define BACKLIGHT_LEVELS 8
@@ -80,3 +102,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
+
+#define VIA_EEPROM_CUSTOM_CONFIG_SIZE 4 // Custom config starts after VIA's EEPROM usage

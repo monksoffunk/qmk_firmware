@@ -15,3 +15,84 @@
  */
 
 #include "rev1.h"
+
+user_config_t user_config;
+//uint8_t encoder_resolution[NUMBER_OF_ENCODERS];
+
+void eeconfig_init_kb(void) {
+    user_config.raw      = 0;
+    user_config.mac_mode = true;
+    uint8_t encoder_resolutions[] = ENCODER_RESOLUTIONS;
+    user_config.encoder_resolutions[0] = encoder_resolutions[0];
+    user_config.encoder_resolutions[1] = encoder_resolutions[1];
+    eeconfig_update_kb(user_config.raw);
+    eeconfig_init_user();
+}
+
+void keyboard_pre_init_kb(void) {
+    // Read the user config from EEPROM
+    user_config.raw = eeconfig_read_kb();
+    keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = !user_config.mac_mode;
+#ifdef ENCODER_ENABLE
+    for (uint8_t i = 0 ; i < 2 ; i++) {
+        if ((user_config.encoder_resolutions[i] == 0) || (user_config.encoder_resolutions[i] > 4)) {
+            user_config.encoder_resolutions[i] = 4;
+            eeconfig_update_kb(user_config.raw);
+        }
+        encoder_set_resolution(i, user_config.encoder_resolutions[i]);
+    }
+#endif
+    keyboard_pre_init_user();
+}
+
+#ifdef ENCODER_ENABLE
+void matrix_scan_kb(void) {
+    encoder_action_unregister();
+    matrix_scan_user();
+}
+
+bool encoder_update_kb(uint8_t index, bool clockwise) {
+    encoder_action_register(index, clockwise);
+    return true;
+}
+#endif
+
+bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case AG_NORM:
+            if (record->event.pressed) {
+                if (!user_config.mac_mode) {
+                    user_config.mac_mode = true;
+                    eeconfig_update_kb(user_config.raw);
+                    }
+            }
+            return true;
+            break;
+        case AG_SWAP:
+            if (record->event.pressed) {
+                if (user_config.mac_mode) {
+                    user_config.mac_mode = false;
+                    eeconfig_update_kb(user_config.raw);
+                    }
+            }
+            return true;
+            break;
+#ifdef ENCODER_ENABLE
+        case CHENCR0:
+        case CHENCR1:
+            if (record->event.pressed) {
+            } else {
+                uint8_t index = keycode - CHENCR0;
+                user_config.encoder_resolutions[index] = (user_config.encoder_resolutions[index] << 1) & 7;
+                if (user_config.encoder_resolutions[index] == 0) { user_config.encoder_resolutions[index] = 1; }
+                encoder_set_resolution(index, user_config.encoder_resolutions[index]);
+                eeconfig_update_kb(user_config.raw);
+            }
+            return false;
+            break;
+#endif
+        default:
+            break;
+    }
+    return process_record_user(keycode, record);
+}
