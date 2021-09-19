@@ -26,12 +26,10 @@ enum layer_names {
 };
 
 // Defines the keycodes used by our macros in process_record_user
-enum custom_keycodes {
+// start with = USR_SAFE_RANGE
+/* enum custom_keycodes {
     QWERTY = USR_SAFE_RANGE,
-    LOWER,
-    RAISE,
-    ADJUST,
-};
+}; */
 
 
  /* Default Layer

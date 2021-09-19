@@ -80,7 +80,8 @@ typedef union {
 
 #ifdef ENCODER_ENABLE
 enum kb_keycodes {
-    ENCADJ = SAFE_RANGE,
+//    ENCADJ = SAFE_RANGE,
+    ENCADJ = USER00,
     CHENCR0,
     CHENCR1,
     ENC_00,
