@@ -23,6 +23,17 @@
 // for memcpy
 #include <string.h>
 
+
+#ifdef ENCODER_DETECT_OVER_SPEED
+static int encoder_over_count = 0; /* The number of times the rotation speed has exceeded the sampling speed. */
+
+int get_encoder_over_count(void) {
+    int result = encoder_over_count;
+    encoder_over_count = 0;
+    return result;
+}
+#endif
+
 #if !defined(ENCODER_RESOLUTIONS) && !defined(ENCODER_RESOLUTION)
 #    define ENCODER_RESOLUTION 4
 #endif
@@ -47,7 +58,11 @@ static uint8_t encoder_resolution = ENCODER_RESOLUTION;
 #    define ENCODER_CLOCKWISE false
 #    define ENCODER_COUNTER_CLOCKWISE true
 #endif
+
 static int8_t encoder_LUT[] = {0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0};
+#ifdef ENCODER_DETECT_OVER_SPEED
+static int8_t encoder_over_LUT[] = {0, 0, 0, 1,   0, 0, 1, 0,    0, 1, 0, 0,   1, 0, 0, 0};
+#endif
 
 static uint8_t encoder_state[NUMBER_OF_ENCODERS]  = {0};
 static int8_t  encoder_pulses[NUMBER_OF_ENCODERS] = {0};
@@ -118,6 +133,9 @@ static bool encoder_update(uint8_t index, uint8_t state) {
     index += thisHand;
 #endif
     encoder_pulses[i] += encoder_LUT[state & 0xF];
+#ifdef ENCODER_DETECT_OVER_SPEED
+    encoder_over_count += encoder_over_LUT[state & 0xF];
+#endif
     if (encoder_pulses[i] >= resolution) {
         encoder_value[index]++;
         changed = true;

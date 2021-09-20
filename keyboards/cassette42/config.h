@@ -50,4 +50,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define RGBLIGHT_ANIMATIONS
 #endif
 
+#define ENCODER_DETECT_OVER_SPEED
 #define OLED_FONT_H "keyboards/cassette42/common/glcdfont.c"
