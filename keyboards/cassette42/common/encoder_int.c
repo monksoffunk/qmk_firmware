@@ -137,10 +137,10 @@ static bool encoder_update(uint8_t index, uint8_t state) {
     return changed;
 }
 
-volatile bool encoder_changed = false;
+volatile bool encoders_changed = false;
 
 ISR(PCINT0_vect){
-    encoder_changed = encoder_read();
+    encoders_changed = encoder_read();
 }
 
 bool encoder_read(void) {

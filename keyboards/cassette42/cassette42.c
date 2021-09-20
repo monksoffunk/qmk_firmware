@@ -17,6 +17,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+extern bool encoders_changed;
 
 void keyboard_pre_init_kb(void) {
     //Enable Pin Change Interrupts
@@ -26,4 +27,15 @@ void keyboard_pre_init_kb(void) {
 
     encoder_init();
     keyboard_pre_init_user();
+}
+
+void housekeeping_task_kb() {
+#ifdef OLED_ENABLE
+    oled_task();
+#    if OLED_TIMEOUT > 0
+    // Wake up oled if user is using those fabulous keys or spinning those encoders!
+    if (encoders_changed) oled_on();
+#    endif
+#endif
+    housekeeping_task_user();
 }
