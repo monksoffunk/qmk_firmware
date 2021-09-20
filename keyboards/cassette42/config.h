@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ENCODERS_PAD_A { B6, B3 }
 #define ENCODERS_PAD_B { B2, B1 }
 #define ENCODER_RESOLUTION 4
+#define ENCODER_INT_ENABLE
 
 #define RGB_DI_PIN D3
 #ifdef RGB_DI_PIN

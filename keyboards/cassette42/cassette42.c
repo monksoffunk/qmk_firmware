@@ -14,3 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cassette42.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+
+void keyboard_pre_init_kb(void) {
+    //Enable Pin Change Interrupts
+    PCICR = 0;                // Disable all Pin Change Interrupts
+    PCMSK0 = _BV(PCINT2) | _BV(PCINT6) | _BV(PCINT1) | _BV(PCINT3);
+    PCICR |= _BV(PCIE0);
+
+    encoder_init();
+    keyboard_pre_init_user();
+}

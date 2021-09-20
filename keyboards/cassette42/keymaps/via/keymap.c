@@ -92,7 +92,7 @@ void keyboard_pre_init_user(void) {
     }
 }
 
-#ifdef ENCODER_ENABLE
+#if defined(ENCODER_ENABLE) || defined(ENCODER_INT_ENABLE)
 uint8_t encoder_lock_layer = 0;
 #endif
 
@@ -278,7 +278,7 @@ void oled_task_user(void) {
 
 void led_set_user(uint8_t usb_led) {}
 
-#ifdef ENCODER_ENABLE
+#if defined(ENCODER_ENABLE) || defined(ENCODER_INT_ENABLE)
 bool encoder_update_user(uint8_t index, bool clockwise) {
     keypos_t key;
     bool     encoder_layer_locked = false;

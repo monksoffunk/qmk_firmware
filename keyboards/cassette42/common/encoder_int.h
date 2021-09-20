@@ -1,4 +1,5 @@
-/* Copyright 2019 monksoffunk
+/*
+ * Copyright 2018 Jack Humbert <jack.humb@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,27 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #pragma once
 
 #include "quantum.h"
-#include "common/encoder_int.h"
 
+void encoder_init(void);
+bool encoder_read(void);
 
-/* This a shortcut to help you visually see your layout.
- *
- * The first section contains all of the arguments representing the physical
- * layout of the board and position of the keys.
- *
- * The second converts the arguments into a two-dimensional array which
- * represents the switch matrix.
- */
+bool encoder_update_kb(uint8_t index, bool clockwise);
+bool encoder_update_user(uint8_t index, bool clockwise);
 
-#ifndef LAYOUT
-#define LAYOUT( \
-        k10,  k11,   \
-    k00, k01, k02, k03\
-) \
-{ \
-    { k00, k01, k02, k03, k10, k11 }, \
-}
+#ifdef SPLIT_KEYBOARD
+void encoder_state_raw(uint8_t* slave_state);
+void encoder_update_raw(uint8_t* slave_state);
 #endif
+
+void encoder_set_resolution(uint8_t index, uint8_t resolution);
