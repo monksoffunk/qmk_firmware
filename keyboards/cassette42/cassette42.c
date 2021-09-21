@@ -17,12 +17,19 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+//#ifdef ENCODER_INIT_ENABLE
 extern bool encoders_changed;
+extern uint16_t int_count;
 
 void keyboard_pre_init_kb(void) {
     //Enable Pin Change Interrupts
     PCICR = 0;                // Disable all Pin Change Interrupts
+
+#ifdef ENCODER_SINGLE_INTERRUPT
+  //  PCMSK0 = _BV(PCINT6) | _BV(PCINT3);
+#else
     PCMSK0 = _BV(PCINT2) | _BV(PCINT6) | _BV(PCINT1) | _BV(PCINT3);
+#endif
     PCICR |= _BV(PCIE0);
 
     encoder_init();
@@ -30,8 +37,14 @@ void keyboard_pre_init_kb(void) {
 }
 
 void housekeeping_task_kb() {
+#ifdef ENCODER_DETECT_OVER_SPEED
+    if (int_count > 100) {
+        dprintf("Interrupt: %u\n", int_count);
+        int_count = 0;
+    }
+#endif
 #ifdef OLED_ENABLE
-    oled_task();
+    //oled_task();
 #    if OLED_TIMEOUT > 0
     // Wake up oled if user is using those fabulous keys or spinning those encoders!
     if (encoders_changed) oled_on();
@@ -39,3 +52,4 @@ void housekeeping_task_kb() {
 #endif
     housekeeping_task_user();
 }
+//#endif

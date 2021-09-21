@@ -59,9 +59,18 @@ static uint8_t encoder_resolution = ENCODER_RESOLUTION;
 #    define ENCODER_COUNTER_CLOCKWISE true
 #endif
 
-static int8_t encoder_LUT[] = {0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0};
+#ifdef ENCODER_SINGLE_INTERRUPT
+//static int8_t encoder_LUT[] = {0, 0, 0, -1, 0, 0, 1, 0, 0, 1, 0, 0, -1, 0, 0, 0};
+#else
+static int8_t  encoder_LUT[] = {0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0};
+#endif
+
 #ifdef ENCODER_DETECT_OVER_SPEED
-static int8_t encoder_over_LUT[] = {0, 0, 0, 1,   0, 0, 1, 0,    0, 1, 0, 0,   1, 0, 0, 0};
+#    ifdef ENCODER_SINGLE_INTERRUPT
+//static int8_t encoder_over_LUT[] = {0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0};
+#    else
+static int8_t encoder_over_LUT[] = {0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0};
+#    endif
 #endif
 
 static uint8_t encoder_state[NUMBER_OF_ENCODERS]  = {0};
@@ -156,9 +165,12 @@ static bool encoder_update(uint8_t index, uint8_t state) {
 }
 
 volatile bool encoders_changed = false;
+volatile uint16_t int_count = 0;
+
 
 ISR(PCINT0_vect){
     encoders_changed = encoder_read();
+    int_count++;
 }
 
 bool encoder_read(void) {

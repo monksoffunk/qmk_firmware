@@ -25,6 +25,7 @@ OLED_DRIVER = SSD1306
 
 SRC += ./common/oled_helper.c
 SRC += ./common/encoder_int.c
+
 LTO_ENABLE = yes
 DEBUG_MATRIX_SCAN_RATE_ENABLE = yes
 OPT_DEFS += -DMATRIX_IO_DELAY=3

@@ -283,6 +283,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     keypos_t key;
     bool     encoder_layer_locked = false;
 
+#ifdef ENCODER_DETECT_OVER_SPEED
+    int enc_over = get_encoder_over_count();
+    for (; enc_over > 0; enc_over--) {
+        tap_code(KC_MINUS);
+    }
+#endif
+
     if (index == 0) {
         if (modecon_enable) {
             if (clockwise) {

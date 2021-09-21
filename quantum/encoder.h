@@ -31,3 +31,8 @@ void encoder_update_raw(uint8_t* slave_state);
 #endif
 
 void encoder_set_resolution(uint8_t index, uint8_t resolution);
+
+#ifdef ENCODER_DETECT_OVER_SPEED
+/* The number of times the rotation speed has exceeded the sampling speed. */
+int get_encoder_over_count(void);
+#endif

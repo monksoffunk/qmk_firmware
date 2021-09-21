@@ -16,8 +16,10 @@
 #pragma once
 
 #include "quantum.h"
-#include "common/encoder_int.h"
 
+#ifdef ENCODER_INT_ENABLE
+#include "common/encoder_int.h"
+#endif
 
 /* This a shortcut to help you visually see your layout.
  *
