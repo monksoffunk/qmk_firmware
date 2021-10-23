@@ -344,7 +344,7 @@ void rgb_matrix_indicators_kb(void) {
     }
 }
 #elif RGBLIGHT_ENABLE
-layer_state_t layer_state_set_kb(uint32_t state) {
+layer_state_t layer_state_set_kb(layer_state_t state) {
     if (user_config.mac_mode) {
         rgblight_set_layer_state(0, layer_state_cmp(state | default_layer_state, _NUMOFF));
     }
