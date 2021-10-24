@@ -30,6 +30,7 @@
 #    define RGBLIGHT_EFFECT_STATIC_GRADIENT
 //#define RGBLIGHT_EFFECT_RGB_TEST
 //#define RGBLIGHT_EFFECT_ALTERNATING
+#    define RGBLIGHT_EFFECT_TWINKLE
 #endif
 
 // color setting for lighting layers
