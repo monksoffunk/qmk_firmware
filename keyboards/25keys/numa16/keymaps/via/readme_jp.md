@@ -1,0 +1,131 @@
+﻿# The numAttack16 via Layout
+## 配列
+
+### Default Layer
+
+```
+ ,-----------------------.                         
+ |  7  |  8  |  9  |  -  |  - momentary on...RGB Layer
+ |-----+-----+-----+-----|
+ |  4  |  5  |  6  |  +  |  + momentary on...FN Layer
+ |-----+-----+-----+-----|
+ |  1  |  2  |  3  |  *  |  * momentary on...BLED Layer
+ |-----+-----+-----+-----|
+ |  0  |  .  | Ent |  /  |  / momentary on...BLED Layer
+ `------------------------
+```
+
+### FN Layer
+
+```
+ ,-----------------------.             
+ |  F7 |  F8 |  F9 | F10 |
+ |-----+-----+-----+-----|
+ |  F4 |  F5 |  F6 |     |
+ |-----+-----+-----+-----|
+ |  F1 |  F2 |  F3 |     |
+ |-----+-----+-----+-----|
+ |     |     |     |     |
+ `------------------------
+```
+ 
+### FN2 Layer
+
+```
+ ,-----------------------.             
+ | Num |  /  |  *  | STab|
+ |-----+-----+-----+-----|
+ | Esc |     |WinMc| Tab |
+ |-----+-----+-----+-----|
+ |     |     |     | BS  |
+ |-----+-----+-----+-----|
+ |     |     |     |     |
+ `------------------------
+```
+ ### RGB Layer
+
+```
+ ,-----------------------.             
+ | TOG | MODF| HINC|     |             
+ |-----+-----+-----+-----|
+ | RST | MODR| HDEC|     |
+ |-----+-----+-----+-----|
+ | SAI |     | VAI |     |
+ |-----+-----+-----+-----|
+ | SAD |     | VAD |     |
+ `------------------------
+```
+
+ ### BL Layer
+
+```
+ ,-----------------------.             
+ | TOG | BLON| INC |STEP |             
+ |-----+-----+-----+-----|
+ | MODE|BLOFF| DEC |     |
+ |-----+-----+-----+-----|
+ |     |     |     |     |
+ |-----+-----+-----+-----|
+ |     |     |     |     |
+ `------------------------
+```
+
+## コンパイルの仕方
+
+コンパイルは、qmk_firmware のトップディレクトリで行います。
+
+```
+$ cd qmk_firmware
+```
+qmk_firmwareでは各キーボードのコンパイルは、`<キーボード名>:<キーマップ名>`という指定で行います。
+
+```
+$ make 25keys/numa16:via
+```
+
+キーボードへの書き込みまで同時に行うには下記のように`:avrdude`を付けます。
+
+```
+$ make 25keys/numa16:via:avrdude
+```
+
+コンパイル結果と中間生成物を消去したい場合は以下のようにします。
+
+```
+$ make 25keys/numa16:via:clean
+```
+
+## カスタマイズ
+
+コマンドラインからオプションを指定してビルドすることが出来ます。
+
+```
+### NumATTACK16 keyboard 'default' keymap: convenient command line option
+##    make NUMA16=<options> 25keys/numa16:defualt
+##    option= smd | back | under | na | ios
+##    ex.
+##      make NUMA16=under    25keys/numa16:via
+##      make NUMA16=under,ios 25keys/numa16:via
+##      make NUMA16=back     25keys/numa16:via
+##      make NUMA16=back,na  25keys/numa16:via
+##      make NUMA16=back,ios 25keys/numa16:via
+##      make NUMA16=smd,back,ios 25keys/numa16:via
+
+```
+
+## カスタマイズに使用できるオプションについて
+
+```
+smd...SMD版の場合（MCUが32u2になります）
+back...バックライトLEDを有効にする場合（キーキャップ側を照らすインスイッチLEDを実装した場合）
+under...アンダーグロウLEDを有効にする場合（底面側を照らす5個のLEDを実装した場合）
+na...RGBのアニメーションをオフにする場合
+ios...iPad/iPhoneなどのiOS機器に接続する場合（消費電力を制限します）
+
+```
+
+## カスタマイズを使用したビルドコマンド例
+
+make NUMA16=smd,under 25keys/numa16:default
+アンダーグロウLEDを有効にするオプションを付与してdefaultキーマップのファームをビルドします
+
