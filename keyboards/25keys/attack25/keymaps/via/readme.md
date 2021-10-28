@@ -16,14 +16,14 @@
  |-----+-----+-----+-----+-----|
  |  0  | 00  |  .  |Enter|BkSpc|  BackSpace momentary on...SP Layer
  `------------------------------
-```                               Enter momentary on...NUMOFF Layer
-
+                                  Enter momentary on...NUMOFF Layer
+```
 ### NUMOFF Layer
 
 ```
                         S(Tab) Tab  ENCCCW  ENCCW
- ,-----------------------------.             
- |     |     |     |     |ENRST| ENCODER_Lock Reset            
+ ,-----------------------------.   
+ |     |     |     |     |ENRST| ENCODER_Lock Reset
  |-----+-----+-----+-----+-----|
  | Home|  Up | PgUp|     |     |
  |-----+-----+-----+-----+-----|

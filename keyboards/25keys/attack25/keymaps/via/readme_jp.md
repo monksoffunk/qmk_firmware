@@ -16,6 +16,7 @@
  |-----+-----+-----+-----+-----|
  |  0  | 00  |  .  |Enter|BkSpc|  BackSpace momentary on...SP Layer
  `------------------------------
+                                  Enter momentary on...NUMOFF Layer
  ``` 
 
 ### NUMOFF Layer
