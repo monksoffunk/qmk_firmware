@@ -15,3 +15,118 @@
  */
 
 #include "aleth54.h"
+
+user_config_t user_config;
+
+#ifdef ENCODER_ENABLE
+uint8_t encoderlocklayer[] =  {0, 0};
+#endif
+
+void eeconfig_init_kb(void) {
+    user_config.raw      = 0;
+    user_config.mac_mode = true;
+#ifdef ENCODER_ENABLE
+    uint8_t encoder_resolutions[] = ENCODER_RESOLUTIONS;
+    user_config.encoder_resolutions[0] = encoder_resolutions[0];
+    user_config.encoder_resolutions[1] = encoder_resolutions[1];
+#endif
+    eeconfig_update_kb(user_config.raw);
+    eeconfig_init_user();
+}
+
+void keyboard_pre_init_kb(void) {
+    // Read the user config from EEPROM
+    user_config.raw = eeconfig_read_kb();
+    keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = !user_config.mac_mode;
+#ifdef ENCODER_ENABLE
+/*     for (uint8_t i = 0 ; i < ENCODERS ; i++) {
+        if ((user_config.encoder_resolutions[i] == 0) || (user_config.encoder_resolutions[i] > 4)) {
+            user_config.encoder_resolutions[i] = 4;
+            eeconfig_update_kb(user_config.raw);
+        }
+        encoder_set_resolution(i, user_config.encoder_resolutions[i]);
+    } */
+#endif
+    keyboard_pre_init_user();
+}
+
+#ifdef ENCODER_ENABLE
+void matrix_scan_kb(void) {
+    encoder_action_unregister(encoderlocklayer);
+    matrix_scan_user();
+}
+
+bool encoder_update_kb(uint8_t index, bool clockwise) {
+    encoder_action_register(index, clockwise, encoderlocklayer);
+    return true;
+}
+#endif
+
+bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case AG_NORM:
+            if (record->event.pressed) {
+                if (!user_config.mac_mode) {
+                    user_config.mac_mode = true;
+                    eeconfig_update_kb(user_config.raw);
+                    }
+            }
+            return true;
+            break;
+        case AG_SWAP:
+            if (record->event.pressed) {
+                if (user_config.mac_mode) {
+                    user_config.mac_mode = false;
+                    eeconfig_update_kb(user_config.raw);
+                    }
+            }
+            return true;
+            break;
+#ifdef ENCODER_ENABLE
+        case CHENCR0:
+        case CHENCR1:
+            if (record->event.pressed) {
+            } else {
+/*                 uint8_t index = keycode - CHENCR0;
+                user_config.encoder_resolutions[index] = (user_config.encoder_resolutions[index] << 1) & 7;
+                if (user_config.encoder_resolutions[index] == 0) { user_config.encoder_resolutions[index] = 1; }
+                encoder_set_resolution(index, user_config.encoder_resolutions[index]);
+                eeconfig_update_kb(user_config.raw);
+                */
+            }
+            return false;
+            break;
+        case ENC_00:
+        case ENC_01:
+        case ENC_02:
+        case ENC_03:
+        case ENC_04:
+            if (record->event.pressed) {
+                if (encoderlocklayer[0] != keycode - ENC_00) {
+                    encoderlocklayer[0] = keycode - ENC_00;
+                } else {
+                    encoderlocklayer[0] = 0;
+                }
+            }
+            return false;
+            break;
+        case ENC_10:
+        case ENC_11:
+        case ENC_12:
+        case ENC_13:
+        case ENC_14:
+            if (record->event.pressed) {
+                if (encoderlocklayer[1] != keycode - ENC_10) {
+                    encoderlocklayer[1] = keycode - ENC_10;
+                } else {
+                    encoderlocklayer[1] = 0;
+                }
+            }
+            return false;
+            break;
+#endif
+        default:
+            break;
+    }
+    return process_record_user(keycode, record);
+}

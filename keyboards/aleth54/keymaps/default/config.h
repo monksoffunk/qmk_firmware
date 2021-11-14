@@ -27,6 +27,3 @@
 #    define RGBLIGHT_ANIMATIONS
 #    define RGBLIGHT_TWINKLE
 #endif
-
-#define VIA_EEPROM_CUSTOM_CONFIG_SIZE 4 // Custom config starts after VIA's EEPROM usage
-#define DYNAMIC_KEYMAP_LAYER_COUNT 5

@@ -17,6 +17,7 @@
 #pragma once
 
 #include "quantum.h"
+#include <common/encoder_action.h>
 
 /* This is a shortcut to help you visually see your layout.
  *
@@ -26,8 +27,6 @@
  * The second converts the arguments into a two-dimensional array which
  * represents the switch matrix.
  */
-// for readability
-#define XXX KC_NO
 
 /* This is a shortcut to help you visually see your layout.
  *
@@ -49,7 +48,31 @@
  * |-----------------------------------------------------------|
  * | 40 | 41  | 42  |    43     |      44     | 45  | 46 | 47  |
  * `-----------------------------------------------------------'
+ *
+ * ENCODER0     ENCODER1
+ * CCW | CW     CCW | CW
+ * RE0  RE1     RE2  RE3
+ *
+ * ENCODER0 can replace switch 00 or 0A
+ * ENCODER1 can replace switch 01 or 49
  */
+#ifdef ENCODER_ENABLE
+#define LAYOUT( \
+  RE0, RE1, RE2, RE3,\
+  k00, k01, k02, k03, k04, k05, k06, k07, k08, k09, k0A, k49,\
+  k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1A, k4A,\
+  k20, k21, k22, k23, k24, k25, k26, k27, k28, k29,      k2A,\
+  k30,      k31, k32, k33, k34, k35, k36, k37, k38, k39, k3A,\
+  k40, k41,      k42,      k43,      k44,      k45, k46, k47\
+) \
+{ \
+  { k00, k01, k02, k03, k04, k05, k06, k07, k08, k09, k0A, RE0 },\
+  { k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1A, RE1 },\
+  { k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2A, RE2 },\
+  { k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3A, RE3 },\
+  { k40, k41, k42, k43, k44, k45, k46, k47, KC_NO, k49, k4A, KC_NO }\
+}
+#else
 #define LAYOUT( \
   k00, k01, k02, k03, k04, k05, k06, k07, k08, k09, k0A, k49,\
   k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1A, k4A,\
@@ -58,9 +81,37 @@
   k40, k41,      k42,      k43,      k44,      k45, k46, k47\
 ) \
 { \
-  { k00, k01, k02, k03, k04, k05, k06, k07, k08, k09, k0A },\
-  { k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1A },\
-  { k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2A },\
-  { k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3A },\
-  { k40, k41, k42, k43, k44, k45, k46, k47, XXX, k49, k4A }\
+  { k00, k01, k02, k03, k04, k05, k06, k07, k08, k09, k0A, KC_NO },\
+  { k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1A, KC_NO },\
+  { k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2A, KC_NO },\
+  { k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3A, KC_NO },\
+  { k40, k41, k42, k43, k44, k45, k46, k47, KC_NO, k49, k4A, KC_NO }\
 }
+#endif
+
+typedef union {
+  uint32_t raw;
+  struct {
+    bool mac_mode :1;
+    bool          :0;
+    uint8_t encoder_resolutions[2];
+  };
+} user_config_t;
+
+#ifdef ENCODER_ENABLE
+enum kb_keycodes {
+    ENCADJ = KC_FN0,
+    CHENCR0,
+    CHENCR1,
+    ENC_00,
+    ENC_01,
+    ENC_02,
+    ENC_03,
+    ENC_04,
+    ENC_10,
+    ENC_11,
+    ENC_12,
+    ENC_13,
+    ENC_14
+};
+#endif
