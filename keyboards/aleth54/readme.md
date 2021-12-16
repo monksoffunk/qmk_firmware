@@ -2,7 +2,7 @@
 
 ![aleth54](imgur.com image replace me!)
 
-*A short description of the keyboard/project*
+Short 60% keyboard with rotary encoder option
 
 * Keyboard Maintainer: [monksoffunk](https://github.com/yourusername)
 * Hardware Supported: *The PCBs, controllers supported*
