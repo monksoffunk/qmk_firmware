@@ -16,6 +16,7 @@
 #pragma once
 
 #include "quantum.h"
+#include <common/encoder_action.h>
 
 /* This a shortcut to help you visually see your layout.
  *
@@ -25,6 +26,8 @@
  * The second converts the arguments into a two-dimensional array which
  * represents the switch matrix.
  */
+
+#ifndef LAYOUT
 #define LAYOUT( \
         k10,  k11,   \
     k00, k01, k02, k03\
@@ -32,3 +35,20 @@
 { \
     { k00, k01, k02, k03, k10, k11 }, \
 }
+#endif
+
+#ifdef ENCODER_ENABLE
+enum kb_keycodes {
+    ENCADJ = SAFE_RANGE,
+    ENCPST0,
+    ENCPST1,
+    ENCPST2,
+    ENCPST3,
+    MODECON,
+    USR_SAFE_RANGE,
+};
+#else
+enum kb_keycodes {
+    USR_SAFE_RANGE = SAFE_RANGE,
+};
+#endif

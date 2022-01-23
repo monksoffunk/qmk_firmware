@@ -14,3 +14,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cassette42.h"
+
+#ifdef ENCODER_ENABLE
+uint8_t encoder_lock_layer[] = {0,0};
+
+void matrix_scan_kb(void) {
+    encoder_action_unregister(encoder_lock_layer);
+    matrix_scan_user();
+}
+
+bool encoder_update_kb(uint8_t index, bool clockwise) {
+    encoder_action_register(index, clockwise, encoder_lock_layer);
+    return(encoder_update_user(index, clockwise));
+}
+
+bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case ENCPST0:
+        case ENCPST1:
+        case ENCPST2:
+        case ENCPST3:
+            if (record->event.pressed) {
+                if (encoder_lock_layer[0] != keycode - ENCPST0 + 1) {
+                    encoder_lock_layer[0] = keycode - ENCPST0 + 1;
+                    encoder_lock_layer[1] = keycode - ENCPST0 + 1;
+                } else {
+                    encoder_lock_layer[0] = 0;
+                    encoder_lock_layer[1] = 0;
+                }
+            }
+            return false;
+            break;
+        default:
+            break;
+    }
+    return process_record_user(keycode, record);
+}
+#endif
