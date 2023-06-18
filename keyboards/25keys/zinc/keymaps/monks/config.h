@@ -34,3 +34,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
    //#define RGBLIGHT_EFFECT_RGB_TEST
    //#define RGBLIGHT_EFFECT_ALTERNATING
 #endif
+
+// place overrides here
+//#define TAPPING_TERM 200
+#define PERMISSIVE_HOLD
+
+#ifdef DEBOUNCE
+# undef DEBOUNCE
+# define DEBOUNCE 50
+#endif
