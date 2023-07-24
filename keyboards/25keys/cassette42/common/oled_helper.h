@@ -1,6 +1,6 @@
 #ifdef OLED_ENABLE
 
-void render_logo(void);
+void render_logo(uint8_t logo_num);
 
 #    define RENDER_LOGO(a) render_logo(a)
 
