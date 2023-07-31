@@ -1,8 +1,9 @@
-/* Copyright 2020 monksoffunk
+/* Copyright 2020 Neil Brian Ramirez
+ * Copyright 2021 monksoffunk
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "quantum.h"
 
-// place overrides here
-// #define TAPPING_TERM 200
-#define PERMISSIVE_HOLD
-#define DYNAMIC_KEYMAP_LAYER_COUNT 5
+void encoder_action_unregister(uint8_t *locklayer);
+
+void encoder_action_register(uint8_t index, bool clockwise, uint8_t *locklayer);
