@@ -36,21 +36,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,-----------------------------------------------------------.
      * | Esc|  Q |  W |  E |  R |  T |  Y |  U |  I |  O |  P | BS |
      * |-----------------------------------------------------------|
-     * | Tab |  A |  S |  D |  F |  G |  H |  J |  K |  L | Ent    |
+     * | Tab*|  A |  S |  D |  F |  G |  H |  J |  K |  L | Ent    |
      * |-----------------------------------------------------------|
-     * | LSft   |  Z |  X |  C |  V |  B |  N |  M |  , |  . |fn(/)|
+     * | LSft  |  Z |  X |  C |  V |  B |  N |  M |  , |  . |fn2(/)|
      * |-----------------------------------------------------------|
-     * | LCtl | LAlt| LGui|  spc fn0  |  spc fn1    |RGui|RAlt|RCtl|
+     * | Esc* | LAlt| LGui|  SPC fn0  |   BS fn1    |RGui|RAlt|RCtl|
      * `-----------------------------------------------------------'
  */
     [_QWERTY] = LAYOUT(
         KC_ESC,  KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,    KC_O,    KC_P,   KC_BSPC,
-        KC_TAB,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    KC_ENT,
+        MT(MOD_LCTL, KC_TAB),  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    KC_ENT,
         KC_LSFT, KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,  LT(_ADJUST, KC_SLSH),
-        KC_LCTL, KC_LALT   , KC_LGUI, LT(_LOWER, KC_SPC),   LT(_RAISE, KC_SPC), KC_RGUI, KC_RALT, KC_RCTL
+        MT(MOD_LCTL, KC_ESC), KC_LALT   , KC_LGUI, LT(_LOWER, KC_SPC),   LT(_RAISE, KC_BSPC), KC_RGUI, KC_RALT, KC_RCTL
         ),
 
- /* Lower Layer
+ /* Lower Layer fn0
      * ,-----------------------------------------------------------.
      * |  ~ |  ! |  @ |  # |  $ |  % |  ^ |  & |  * |  ( |  ) | Del|
      * |-----------------------------------------------------------|
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		_______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT
 		),
 
-	/* Raise Layer
+	/* Raise Layer fn1
      * ,-----------------------------------------------------------.
      * |  ` |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |  0 | Del|
      * |-----------------------------------------------------------|
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		_______, _______, _______, _______, _______, _______, _______, _______
 		),
 
-	/* Adjust Layer
+	/* Adjust Layer fn2
      * ,-----------------------------------------------------------.
      * |Mute| F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10|F11 |
      * |-----------------------------------------------------------|
@@ -105,46 +105,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		),
 };
 
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) { /* Left encoder */
-        switch (get_highest_layer(layer_state)) {
-            case _QWERTY:
-                if (clockwise) {
-                    tap_code(KC_TAB);
-                } else {
-                    tap_code16(S(KC_TAB));
-                }
-                break;
-            case _RAISE:
-                if (clockwise) {
-                //    tap_code(KC_VOLU);
-                    if(keymap_config.swap_lalt_lgui==false){
-                        tap_code(KC_LNG2);
-                    }else {
-                        tap_code16(A(KC_GRV));
-                    }
-                } else {
-                    if(keymap_config.swap_lalt_lgui==false){
-                    tap_code(KC_LNG1);
-                    } else {
-                        tap_code16(A(KC_GRV));
-                    }
-                }
-                break;
-            case _ADJUST:
-                if (clockwise) {
-                    tap_code(KC_VOLU);
-                } else {
-                    tap_code(KC_VOLD);
-            }
-        }
-
-    } else if (index == 1) { /* Right encoder */
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
-        }
-    }
-    return true;
-}
+#if defined(ENCODER_MAP_ENABLE)
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+    [0] = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [1] = { ENCODER_CCW_CW(UG_HUED, UG_HUEU),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [2] = { ENCODER_CCW_CW(UG_VALD, UG_VALU),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [3] = { ENCODER_CCW_CW(UG_PREV, UG_NEXT),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+};
+#endif
