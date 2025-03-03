@@ -38,9 +38,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-----------------------------------------------------------|
      * | Tab |  A |  S |  D |  F |  G |  H |  J |  K |  L | Ent    |
      * |-----------------------------------------------------------|
-     * | LSft   |  Z |  X |  C |  V |  B |  N |  M |  , |  . |fn(/)|
+     * | LSft  |  Z |  X |  C |  V |  B |  N |  M |  , |  . |fn2(/)|
      * |-----------------------------------------------------------|
-     * | LCtl | LAlt| LGui|  spc fn0  |  spc fn1    |RGui|RAlt|RCtl|
+     * | LCtl | LAlt| LGui|  SPC fn0  |   BS fn1    |RGui|RAlt|RCtl|
      * `-----------------------------------------------------------'
  */
     [_QWERTY] = LAYOUT(
@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL, KC_LALT   , KC_LGUI, LT(_LOWER, KC_SPC),   LT(_RAISE, KC_BSPC), KC_RGUI, KC_RALT, KC_RCTL
         ),
 
- /* Lower Layer
+ /* Lower Layer fn0
      * ,-----------------------------------------------------------.
      * |  ~ |  ! |  @ |  # |  $ |  % |  ^ |  & |  * |  ( |  ) | Del|
      * |-----------------------------------------------------------|
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		_______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT
 		),
 
-	/* Raise Layer
+	/* Raise Layer fn1
      * ,-----------------------------------------------------------.
      * |  ` |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |  0 | Del|
      * |-----------------------------------------------------------|
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		_______, _______, _______, _______, _______, _______, _______, _______
 		),
 
-	/* Adjust Layer
+	/* Adjust Layer fn2
      * ,-----------------------------------------------------------.
      * |Mute| F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10|F11 |
      * |-----------------------------------------------------------|
