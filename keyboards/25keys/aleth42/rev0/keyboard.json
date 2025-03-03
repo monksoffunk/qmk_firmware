@@ -1,5 +1,5 @@
 {
-    "keyboard_name": "ALETH42",
+    "keyboard_name": "Aleth42 encodermap",
     "manufacturer": "25KEYS",
     "url": "http://www.sho-k.co.uk/tech/aleth42",
     "maintainer": "monksoffunk",
@@ -9,7 +9,7 @@
         "device_version": "0.0.0"
     },
     "features": {
-        "bootmagic": false,
+        "bootmagic": true,
         "mousekey": false,
         "extrakey": true,
         "console": true,
@@ -27,6 +27,11 @@
         "rows": ["B0", "B1", "B2", "B3"]
     },
     "diode_direction": "COL2ROW",
+    "config": {
+        "features": {
+           "encoder_map": true
+        }
+     },
     "encoder": {
         "rotary": [
             {"pin_a": "B6", "pin_b": "B7"},
