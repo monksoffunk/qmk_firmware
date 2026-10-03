@@ -27,8 +27,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_ROWS 1
 #define MATRIX_COLS 10
 
-// four F0 : dummies for encoder
-#define DIRECT_PINS {{ B4, F6, F5, F4, B5, F7, F0, F0, F0, F0 }}
+// Keep the four virtual encoder columns in the matrix. F0 is an AVR-only pin,
+// so use an otherwise unused valid pin when building for the RP2040 converter.
+#if defined(CONVERT_TO_PROMICRO_RP2040)
+#    define CASSETTE42_ENCODER_DUMMY_PIN B0
+#else
+#    define CASSETTE42_ENCODER_DUMMY_PIN F0
+#endif
+
+#define DIRECT_PINS {{ B4, F6, F5, F4, B5, F7, CASSETTE42_ENCODER_DUMMY_PIN, CASSETTE42_ENCODER_DUMMY_PIN, CASSETTE42_ENCODER_DUMMY_PIN, CASSETTE42_ENCODER_DUMMY_PIN }}
 
 #endif
 
@@ -72,7 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MODECONTROL_ENABLE
 
 #undef ENCODER_RESOLUTION
-#define ENCODER_RESOLUTION 2
+#define ENCODER_RESOLUTION 4
 
 #define OLED_TIMEOUT 300000
 //  #define OLED_SCROLL_TIMEOUT 60000
