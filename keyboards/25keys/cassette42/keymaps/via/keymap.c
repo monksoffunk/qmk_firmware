@@ -16,10 +16,32 @@
 #include QMK_KEYBOARD_H
 
 #include "common/oled_helper.h"
+#ifdef MIDI_ENABLE
+#    include "midi.h"
+#    include "qmk_midi.h"
+#endif
+
 #define OLED_LOGO_TOGGLE_INTERVAL   500
 #define OLED_INFOMATION_TERM        2000
 #define MODECON_HOLD_TERM           200
 #define OLED_UPDATE_INTERVAL        10
+#define DJ_BROWSE_HOLD_TERM         600
+
+#define DJ_MIDI_CHANNEL             0
+#define DJ_CC_FILTER_A              16
+#define DJ_CC_FILTER_B              17
+#define DJ_CC_BROWSE_A              18
+#define DJ_CC_BROWSE_B              19
+#define DJ_NOTE_PLAY_A              36
+#define DJ_NOTE_CUE_A               37
+#define DJ_NOTE_CUE_B               38
+#define DJ_NOTE_PLAY_B              39
+#define DJ_NOTE_SYNC_A              40
+#define DJ_NOTE_SYNC_B              41
+#define DJ_NOTE_LOAD_A              42
+#define DJ_NOTE_LOAD_B              43
+#define DJ_REL_CW                   0x01
+#define DJ_REL_CCW                  0x7F
 
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
@@ -38,6 +60,12 @@ enum custom_keycodes {
     ENCPST2,
     ENCPST3,
     MODECON,
+    DJ_ENCA,
+    DJ_ENCB,
+    DJ_PLAY_A,
+    DJ_CUE_A,
+    DJ_CUE_B,
+    DJ_PLAY_B,
 };
 
 enum layer_number {
@@ -47,6 +75,7 @@ enum layer_number {
     _FN1,
     _FN2,
     _FN3,
+    _DJ,
     _HUE,
     _SAT,
     _VAL,
@@ -63,6 +92,48 @@ uint32_t oled_timer;
 bool     is_oled_sleep = false;
 void     render_status(void);
 
+static bool     dj_browse_a = false;
+static bool     dj_browse_b = false;
+static bool     dj_enc_a_down = false;
+static bool     dj_enc_b_down = false;
+static bool     dj_enc_a_long_handled = false;
+static bool     dj_enc_b_long_handled = false;
+static bool     dj_mode_menu = false;
+static uint16_t dj_enc_a_timer;
+static uint16_t dj_enc_b_timer;
+
+#ifdef MIDI_ENABLE
+static void dj_midi_tap(uint8_t note) {
+    midi_send_noteon(&midi_device, DJ_MIDI_CHANNEL, note, 127);
+    midi_send_noteoff(&midi_device, DJ_MIDI_CHANNEL, note, 0);
+}
+
+static void dj_midi_note(uint8_t note, bool pressed) {
+    if (pressed) {
+        midi_send_noteon(&midi_device, DJ_MIDI_CHANNEL, note, 127);
+    } else {
+        midi_send_noteoff(&midi_device, DJ_MIDI_CHANNEL, note, 0);
+    }
+}
+
+static void dj_midi_relative_cc(uint8_t cc, bool clockwise) {
+    midi_send_cc(&midi_device, DJ_MIDI_CHANNEL, cc, clockwise ? DJ_REL_CW : DJ_REL_CCW);
+}
+#endif
+
+static void apply_mode_layer(void) {
+    if (current_layer > 0) {
+        layer_off(current_layer);
+    }
+    layer_on(mode_layer);
+    current_layer = mode_layer;
+    modecon_enable = false;
+    dj_mode_menu = false;
+    dj_browse_a = false;
+    dj_browse_b = false;
+    render_status();
+}
+
 #ifdef ENCODER_ENABLE
 uint8_t encoder_lock_layer = 0;
 #endif
@@ -75,6 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_FN1]   = LAYOUT(_______, _______, _______, _______, MODECON, ENCPST1, _______, _______, _______, _______),
     [_FN2]   = LAYOUT(_______, _______, _______, _______, MODECON, ENCPST2, _______, _______, _______, _______),
     [_FN3]   = LAYOUT(_______, _______, _______, _______, MODECON, ENCPST3, _______, _______, _______, _______),
+    [_DJ]    = LAYOUT(KC_NO, KC_NO, KC_NO, KC_NO, DJ_ENCA, DJ_ENCB, DJ_PLAY_A, DJ_CUE_A, DJ_CUE_B, DJ_PLAY_B),
     [_HUE]   = LAYOUT(RGBNHUD, RGBNHUI, KC_DOWN, KC_UP,   RGB_TOG, RGBRST,  _______, _______, RGBNHUD, RGBNHUI),
     [_SAT]   = LAYOUT(RGBNSAD, RGBNSAI, KC_DOWN, KC_UP,   _______, _______, _______, _______, RGBNSAD, RGBNSAI),
     [_VAL]   = LAYOUT(RGBNVAD, RGBNVAI, KC_DOWN, KC_UP,   _______, _______, RGBNVAD, RGBNVAI, _______, RGBNVAI),
@@ -87,6 +159,82 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     is_oled_sleep = false;
     oled_timer = timer_read32();
     switch (keycode) {
+        case DJ_PLAY_A:
+#ifdef MIDI_ENABLE
+            dj_midi_note(DJ_NOTE_PLAY_A, record->event.pressed);
+#endif
+            return false;
+        case DJ_CUE_A:
+#ifdef MIDI_ENABLE
+            dj_midi_note(DJ_NOTE_CUE_A, record->event.pressed);
+#endif
+            return false;
+        case DJ_CUE_B:
+#ifdef MIDI_ENABLE
+            dj_midi_note(DJ_NOTE_CUE_B, record->event.pressed);
+#endif
+            return false;
+        case DJ_PLAY_B:
+#ifdef MIDI_ENABLE
+            dj_midi_note(DJ_NOTE_PLAY_B, record->event.pressed);
+#endif
+            return false;
+        case DJ_ENCA:
+            if (record->event.pressed) {
+                dj_enc_a_down = true;
+                dj_enc_a_timer = timer_read();
+                dj_enc_a_long_handled = false;
+                if (dj_enc_b_down) {
+                    dj_mode_menu = true;
+                    modecon_enable = true;
+                    mode_layer = current_layer;
+                    dj_enc_a_long_handled = true;
+                    dj_enc_b_long_handled = true;
+                    render_status();
+                }
+            } else {
+                dj_enc_a_down = false;
+                if (dj_mode_menu) {
+                    if (!dj_enc_b_down) {
+                        apply_mode_layer();
+                    }
+                    return false;
+                }
+#ifdef MIDI_ENABLE
+                if (!dj_enc_a_long_handled) {
+                    dj_midi_tap(dj_browse_a ? DJ_NOTE_LOAD_A : DJ_NOTE_SYNC_A);
+                }
+#endif
+            }
+            return false;
+        case DJ_ENCB:
+            if (record->event.pressed) {
+                dj_enc_b_down = true;
+                dj_enc_b_timer = timer_read();
+                dj_enc_b_long_handled = false;
+                if (dj_enc_a_down) {
+                    dj_mode_menu = true;
+                    modecon_enable = true;
+                    mode_layer = current_layer;
+                    dj_enc_a_long_handled = true;
+                    dj_enc_b_long_handled = true;
+                    render_status();
+                }
+            } else {
+                dj_enc_b_down = false;
+                if (dj_mode_menu) {
+                    if (!dj_enc_a_down) {
+                        apply_mode_layer();
+                    }
+                    return false;
+                }
+#ifdef MIDI_ENABLE
+                if (!dj_enc_b_long_handled) {
+                    dj_midi_tap(dj_browse_b ? DJ_NOTE_LOAD_B : DJ_NOTE_SYNC_B);
+                }
+#endif
+            }
+            return false;
         case MODECON:
             if (record->event.pressed) {
                 presstime      = timer_read();
@@ -96,12 +244,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 if ((timer_elapsed(presstime) < MODECON_HOLD_TERM) && (current_layer == mode_layer)) {
                     tap_code16(KC_MUTE);
                 } else {
-                    if (current_layer > 0) {
-                        layer_off(current_layer);
-                    }
-                    layer_on(mode_layer);
-                    current_layer = mode_layer;
-                    render_status();
+                    apply_mode_layer();
                 }
             }
             return false;
@@ -212,6 +355,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #    define L_FN1 (1 << _FN1)
 #    define L_FN2 (1 << _FN2)
 #    define L_FN3 (1 << _FN3)
+#    define L_DJ (1 << _DJ)
 #    define L_HUE (1 << _HUE)
 #    define L_SAT (1 << _SAT)
 #    define L_VAL (1 << _VAL)
@@ -258,6 +402,17 @@ void render_status(void) {
                 case _FN3:
                     oled_write_P(PSTR("FN3 LAYER"), false);
                     break;
+                case _DJ:
+                    if (dj_browse_a && dj_browse_b) {
+                        oled_write_P(PSTR("DJ BROWSE A+B"), false);
+                    } else if (dj_browse_a) {
+                        oled_write_P(PSTR("DJ BROWSE A"), false);
+                    } else if (dj_browse_b) {
+                        oled_write_P(PSTR("DJ BROWSE B"), false);
+                    } else {
+                        oled_write_P(PSTR("DJ MODE"), false);
+                    }
+                    break;
                 case _RGB:
                     oled_write_P(PSTR("RGB CONFIG"), false);
                     break;
@@ -277,7 +432,7 @@ void render_status(void) {
                     break;
             }
         }
-        oled_write_ln_P((!modecon_enable) ? PSTR("") : (mode_layer == _AUDIO) ? PSTR(" >> MAIN") : (mode_layer == _RGB) ? PSTR(" >> RGB") : (mode_layer == _FN0) ? PSTR(" >> FN0") : (mode_layer == _FN1) ? PSTR(" >> FN1") : (mode_layer == _FN2) ? PSTR(" >> FN2") : (mode_layer == _FN3) ? PSTR(" >> FN3") : (mode_layer > _FN3) ? PSTR(" >> RGB") : "", false);
+        oled_write_ln_P((!modecon_enable) ? PSTR("") : (mode_layer == _AUDIO) ? PSTR(" >> MAIN") : (mode_layer == _RGB) ? PSTR(" >> RGB") : (mode_layer == _FN0) ? PSTR(" >> FN0") : (mode_layer == _FN1) ? PSTR(" >> FN1") : (mode_layer == _FN2) ? PSTR(" >> FN2") : (mode_layer == _FN3) ? PSTR(" >> FN3") : (mode_layer == _DJ) ? PSTR(" >> DJ") : (mode_layer > _DJ) ? PSTR(" >> RGB") : "", false);
         UPDATE_LED_STATUS();
         RENDER_LED_STATUS();
     }
@@ -289,6 +444,23 @@ bool oled_task_user(void) {
 }
 #endif
 
+void matrix_scan_user(void) {
+    if (current_layer != _DJ || dj_mode_menu) {
+        return;
+    }
+
+    if (dj_enc_a_down && !dj_enc_a_long_handled && timer_elapsed(dj_enc_a_timer) >= DJ_BROWSE_HOLD_TERM) {
+        dj_enc_a_long_handled = true;
+        dj_browse_a = !dj_browse_a;
+        render_status();
+    }
+    if (dj_enc_b_down && !dj_enc_b_long_handled && timer_elapsed(dj_enc_b_timer) >= DJ_BROWSE_HOLD_TERM) {
+        dj_enc_b_long_handled = true;
+        dj_browse_b = !dj_browse_b;
+        render_status();
+    }
+}
+
 void led_set_user(uint8_t usb_led) {}
 
 #ifdef ENCODER_ENABLE
@@ -296,16 +468,46 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     keypos_t key;
     bool     encoder_layer_locked = false;
 
+    if (current_layer == _DJ) {
+        if (dj_mode_menu) {
+            if (index == 0) {
+                if (clockwise) {
+                    mode_layer++;
+                    if (mode_layer > _DJ) {
+                        mode_layer = _AUDIO;
+                    }
+                } else if (mode_layer == _AUDIO) {
+                    mode_layer = _DJ;
+                } else {
+                    mode_layer--;
+                }
+                render_status();
+            }
+            return false;
+        }
+
+#ifdef MIDI_ENABLE
+        if (index == 0) {
+            dj_midi_relative_cc(dj_browse_a ? DJ_CC_BROWSE_A : DJ_CC_FILTER_A, clockwise);
+            return false;
+        }
+        if (index == 1) {
+            dj_midi_relative_cc(dj_browse_b ? DJ_CC_BROWSE_B : DJ_CC_FILTER_B, clockwise);
+            return false;
+        }
+#endif
+    }
+
     if (index == 0) {
         if (modecon_enable) {
             if (clockwise) {
                 mode_layer++;
-                if (mode_layer > _FN3) {
+                if (mode_layer > _DJ) {
                     mode_layer = 0;
                 }
             } else {
                 if (mode_layer == 0) {
-                    mode_layer = _FN3;
+                    mode_layer = _DJ;
                 } else {
                     mode_layer--;
                 }

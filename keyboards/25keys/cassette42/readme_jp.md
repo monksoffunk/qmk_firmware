@@ -26,6 +26,8 @@ Pro Micro RP2040互換コントローラーを使用する場合のビルド例:
 
     qmk compile -kb 25keys/cassette42 -km via -e CONVERT_TO=promicro_rp2040
 
+`via` キーマップにはDJモードも搭載されています。レイヤー6（DJ）からレイヤー11（RGB MODE）までは、本体内蔵のコントロール用の特殊なレイヤーです。Remapでは、これらのレイヤーを変更しないことをお勧めします。レイヤー0から5まではカスタマイズできます。
+
 詳しくは、[ビルド環境のセットアップ](https://docs.qmk.fm/#/getting_started_build_tools) と
 [makeの使い方](https://docs.qmk.fm/#/getting_started_make_guide) を参照してください。
 QMKを初めて使う場合は、[Complete Newbs Guide](https://docs.qmk.fm/#/newbs) も参照してください。
